@@ -81,7 +81,7 @@ public class ClientHandler extends Thread {
     }
 
     private void disconnect() {
-        System.out.println("ja.Client disconnected: " + client.getRemoteSocketAddress());
+        System.out.println("ja.HobbyRoom.Client disconnected: " + client.getRemoteSocketAddress());
         Server.disconnectUser(this);
     }
 

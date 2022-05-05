@@ -23,11 +23,11 @@ public class Server {
     public static void main(String[] args) {
         try (ServerSocket server = new ServerSocket(22333))
         {
-            System.out.println("ja.Server online and ready to connect");
+            System.out.println("ja.HobbyRoom.Server online and ready to connect");
 
             while (true) {
                 Socket client = server.accept();
-                System.out.println("New ja.Client connected: " + client.getRemoteSocketAddress());
+                System.out.println("New ja.HobbyRoom.Client connected: " + client.getRemoteSocketAddress());
                 new ClientHandler(client).start();
             }
 
