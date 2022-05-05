@@ -28,6 +28,7 @@ public class Server {
                 System.out.println("New Client connected: " + client.getRemoteSocketAddress());
                 new ClientHandler(client).start();
             }
+
         }
         catch (IOException io) {
             io.printStackTrace();
