@@ -1,3 +1,5 @@
+package ja;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.regex.Pattern;
@@ -18,21 +20,27 @@ public class ClientHandler extends Thread {
             br = new BufferedReader(new InputStreamReader(client.getInputStream()));
             wr = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
 
-            String nameInput = "";
+            wr.write("Willkommen im Chatroom!\n\r\n\r");
+            wr.flush();
 
-            do {
-                nameInput = br.readLine();
+            wr.write("Bitte geben Sie ihren Benutzernamen ein: \n\r");
+            wr.flush();
 
-                System.out.println(nameInput);
+            String nameInput = "jaaaa";
 
+            try {
+                nameInput = br.readLine().substring(21);
+            } catch (IndexOutOfBoundsException ignored) {}
+
+
+            while (true) {
                 if (Server.validateName(this, nameInput)) {
                     break;
                 }
-            } while (true);
+                nameInput = br.readLine();
+            }
 
             USERNAME = nameInput;
-
-            System.out.println("gesetzt : " + USERNAME);
 
             while (true) {
                 wr.write(USERNAME + "> ");
@@ -49,7 +57,7 @@ public class ClientHandler extends Thread {
                 } else if (input.equals("quit")) {
                     wr.close();
                     br.close();
-                    break;
+                    disconnect();
                 } else if (input.matches(Server.privateMsgSyntax)) {
                     Pattern pattern = Pattern.compile(Server.privateMsgSyntax);
                     String target = pattern.matcher(input).replaceFirst(x -> x.group(1));
@@ -63,18 +71,17 @@ public class ClientHandler extends Thread {
                 }
             }
 
-        } catch (IOException ignored) {}
-        catch (NullPointerException ignored) {}
-        finally {
-            try {
-                disconnect();
-            } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+            ignored.printStackTrace();
+        }
+        catch (NullPointerException e) {
+            disconnect();
+            e.printStackTrace();
         }
     }
 
-    private void disconnect() throws IOException {
-        client.close();
-        System.out.println("Client disconnected: " + client.getRemoteSocketAddress());
+    private void disconnect() {
+        System.out.println("ja.Client disconnected: " + client.getRemoteSocketAddress());
         Server.disconnectUser(this);
     }
 

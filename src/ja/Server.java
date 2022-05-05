@@ -1,4 +1,6 @@
-import java.io.IOException;
+package ja;
+
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
@@ -19,13 +21,13 @@ public class Server {
     private static Map<ClientHandler, Integer> stats = new HashMap<>();
 
     public static void main(String[] args) {
-        try (ServerSocket server = new ServerSocket(42069))
+        try (ServerSocket server = new ServerSocket(22333))
         {
-            System.out.println("Server online and ready to connect");
+            System.out.println("ja.Server online and ready to connect");
 
             while (true) {
                 Socket client = server.accept();
-                System.out.println("New Client connected: " + client.getRemoteSocketAddress());
+                System.out.println("New ja.Client connected: " + client.getRemoteSocketAddress());
                 new ClientHandler(client).start();
             }
 
