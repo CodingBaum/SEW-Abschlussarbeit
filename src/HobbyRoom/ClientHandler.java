@@ -20,6 +20,9 @@ public class ClientHandler extends Thread {
             br = new BufferedReader(new InputStreamReader(client.getInputStream()));
             wr = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
 
+            wr.write("Sie sind connected\n\r");
+            wr.flush();
+
             String nameInput = "";
 
             do {
@@ -65,8 +68,12 @@ public class ClientHandler extends Thread {
                 }
             }
 
-        } catch (IOException ignored) {}
-        catch (NullPointerException ignored) {}
+        } catch (IOException ignored) {
+            ignored.printStackTrace();
+        }
+        catch (NullPointerException ignored) {
+            ignored.printStackTrace();
+        }
         finally {
             try {
                 disconnect();

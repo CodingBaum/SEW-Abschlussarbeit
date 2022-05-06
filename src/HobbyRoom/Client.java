@@ -6,14 +6,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class Client extends Application {
     private Socket client;
     private String nameRegex;
-    private BufferedWriter wr;
-    private BufferedReader br;
+    private static BufferedWriter wr;
+    private static BufferedReader br;
     private String name;
+    private ServerHandler serverHandler;
 
     public static void main(String[] args) throws IOException, InterruptedException {
         Application.launch(args);
@@ -34,12 +36,12 @@ public class Client extends Application {
         br = new BufferedReader(new InputStreamReader(this.client.getInputStream()));
         wr = new BufferedWriter(new OutputStreamWriter(this.client.getOutputStream()));
 
-        wr.write("noo");
-        wr.flush();
+        serverHandler = new ServerHandler(this, wr, br);
+        serverHandler.start();
     }
 
     public void setName(String name) throws IOException {
-        wr.write(name);
+        wr.write(name+"\n\r");
         wr.flush();
         this.name = name;
     }
