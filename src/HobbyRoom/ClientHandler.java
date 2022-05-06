@@ -23,6 +23,7 @@ public class ClientHandler extends Thread {
             String nameInput = "";
 
             do {
+
                 nameInput = br.readLine();
 
                 System.out.println(nameInput);
@@ -65,8 +66,12 @@ public class ClientHandler extends Thread {
                 }
             }
 
-        } catch (IOException ignored) {}
-        catch (NullPointerException ignored) {}
+        } catch (IOException ignored) {
+            ignored.printStackTrace();
+        }
+        catch (NullPointerException ignored) {
+            ignored.printStackTrace();
+        }
         finally {
             try {
                 disconnect();

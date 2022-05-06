@@ -13,20 +13,9 @@ public class Client extends Application {
     private String nameRegex;
     private BufferedWriter wr;
     private BufferedReader br;
+    private String name;
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        /*Socket client = new Socket(InetAddress.getByName("127.0.0.1"), 42069);
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
-        BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
-
-        wr.write("hallo\r\n");
-        wr.flush();
-
-        System.out.println(br.readLine());
-        System.out.println(br.readLine());
-        System.out.println(br.readLine());*/
-
         Application.launch(args);
     }
 
@@ -44,5 +33,14 @@ public class Client extends Application {
         this.client = client;
         br = new BufferedReader(new InputStreamReader(this.client.getInputStream()));
         wr = new BufferedWriter(new OutputStreamWriter(this.client.getOutputStream()));
+
+        wr.write("noo");
+        wr.flush();
+    }
+
+    public void setName(String name) throws IOException {
+        wr.write(name);
+        wr.flush();
+        this.name = name;
     }
 }

@@ -49,7 +49,7 @@ public class Login {
             }
 
             stage.close();
-            nameSelect().show();
+            nameSelect(user).show();
         });
 
         Scene scene = new Scene(all, 500, 230);
@@ -58,7 +58,7 @@ public class Login {
         return stage;
     }
 
-    public static Stage nameSelect() {
+    public static Stage nameSelect(Client user) {
         Stage stage = new Stage();
 
         stage.setResizable(false);
@@ -78,6 +78,11 @@ public class Login {
 
         submit.setOnAction(actionEvent -> {
             System.out.println(input.getText());
+            try {
+                user.setName(input.getText());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             stage.close();
         });
 
