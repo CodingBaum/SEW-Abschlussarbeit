@@ -78,6 +78,12 @@ public class Login {
 
         submit.setOnAction(actionEvent -> {
             System.out.println(input.getText());
+
+            if (!input.getText().matches(user.nameRegex)) {
+                errorMessage("Dieser Name ist nicht erlaubt!").show();
+                return;
+            }
+
             try {
                 user.setName(input.getText());
             } catch (IOException e) {

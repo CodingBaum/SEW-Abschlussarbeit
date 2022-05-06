@@ -20,7 +20,7 @@ public class ClientHandler extends Thread {
             br = new BufferedReader(new InputStreamReader(client.getInputStream()));
             wr = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
 
-            wr.write("Sie sind connected\n\r");
+            wr.write(Server.nameValidation+"\n\r");
             wr.flush();
 
             String nameInput = "";
@@ -89,7 +89,7 @@ public class ClientHandler extends Thread {
 
     public void write(String msg) {
         try {
-            wr.write(Server.STZ_DAVOR + msg + Server.STZ_DANACH);
+            wr.write(msg);
             wr.flush();
         } catch (IOException ignored) {}
     }

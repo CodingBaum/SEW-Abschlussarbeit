@@ -7,13 +7,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Server {
-    public static final String STZ_DAVOR =
-            new String(new byte[] { 0x0b, 0x1b, '[', '1', 'A', 0x1b, '7', 0x1b,
-                    '[', '1', 'L', '\r' });
-
-    public static final String STZ_DANACH =
-            new String(new byte[] { 0x1b, '8', 0x1b, '[', '1', 'B' });
-
     public static List<ClientHandler> clients = new LinkedList<>();
     public static String nameValidation = "[a-zA-Z0-9]{3,20}";
     public static String privateMsgSyntax = "(" + nameValidation + "):(.*)";

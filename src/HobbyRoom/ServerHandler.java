@@ -23,10 +23,12 @@ public class ServerHandler extends Thread {
 
         while (true) {
             try {
-                input = br.readLine();
+                input = br.readLine().replaceAll("\n", "");
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            MainPage.output(input);
 
             System.out.println(input);
         }

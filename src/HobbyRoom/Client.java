@@ -8,10 +8,11 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.nio.charset.MalformedInputException;
 
 public class Client extends Application {
     private Socket client;
-    private String nameRegex;
+    public String nameRegex;
     private static BufferedWriter wr;
     private static BufferedReader br;
     private String name;
@@ -24,7 +25,6 @@ public class Client extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Login.loginPage(this).show();
-        MainPage.mainStage(this).show();
     }
 
     public static void setPos(Node n, double x, double y) {
@@ -39,11 +39,20 @@ public class Client extends Application {
 
         serverHandler = new ServerHandler(this, wr, br);
         serverHandler.start();
+
+        nameRegex = br.readLine();
     }
 
     public void setName(String name) throws IOException {
         wr.write(name+"\n\r");
         wr.flush();
         this.name = name;
+
+        MainPage.mainStage(this).show();
+    }
+
+    public void writeToServer(String s) throws IOException {
+        wr.write(s + "\n");
+        wr.flush();
     }
 }
