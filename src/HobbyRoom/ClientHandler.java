@@ -23,25 +23,16 @@ public class ClientHandler extends Thread {
             wr.write(Server.nameValidation+"\n\r");
             wr.flush();
 
-            String nameInput = "";
+            String nameInput;
 
             do {
                 nameInput = br.readLine();
 
-                System.out.println(nameInput);
-
-                if (Server.validateName(this, nameInput)) {
-                    break;
-                }
-            } while (true);
+            } while (!Server.validateName(this, nameInput));
 
             USERNAME = nameInput;
 
-            System.out.println("gesetzt : " + USERNAME);
-
             while (true) {
-                wr.write(USERNAME + "> ");
-                wr.flush();
                 String input = br.readLine();
 
                 if (input.isBlank()) {
@@ -68,13 +59,9 @@ public class ClientHandler extends Thread {
                 }
             }
 
-        } catch (IOException ignored) {
-            ignored.printStackTrace();
-        }
-        catch (NullPointerException ignored) {
-            ignored.printStackTrace();
-        }
-        finally {
+        } catch (IOException | NullPointerException e) {
+            e.printStackTrace();
+        } finally {
             try {
                 disconnect();
             } catch (IOException ignored) {}

@@ -1,15 +1,12 @@
 package HobbyRoom;
 
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.awt.*;
-import java.io.IOException;
 
 import static HobbyRoom.Client.setPos;
 
@@ -19,11 +16,14 @@ public class MainPage {
     public static Stage mainStage(Client user){
         Stage stage = new Stage();
         stage.setResizable(false);
+
+        stage.setTitle("Angemeldet als: " + user.getName());
+
         AnchorPane main = new AnchorPane();
 
         //finde die Höhe und Breite des screens
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double height = screenSize.getHeight() -50;
+        double height = (screenSize.getHeight() -50)/2;
         double width = 700;
 
         TextArea input = new TextArea();
@@ -35,14 +35,14 @@ public class MainPage {
         setPos(send, width/1.4, (height/8)*7);
 
         send.setOnAction(actionEvent -> {
-            try {
-                user.writeToServer(input.getText());
-                output("[PUBLIC] DU: " + input.getText());
+            user.writeToServer(input.getText());
+            output("[PUBLIC] DU: " + input.getText());
 
-                input.setText("");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            input.setText("");
+        });
+
+        stage.setOnCloseRequest(closeEvent -> {
+            user.disconnect();
         });
 
         output = new TextArea();

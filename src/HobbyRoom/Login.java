@@ -85,7 +85,10 @@ public class Login {
             }
 
             try {
-                user.setName(input.getText());
+                if (!user.setName(input.getText())) {
+                    errorMessage("Dieser Name ist bereits vergeben!").show();
+                    return;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -101,6 +104,7 @@ public class Login {
     public static Stage errorMessage(String msg) {
         Stage stage = new Stage();
         stage.setResizable(false);
+        stage.setAlwaysOnTop(true);
         stage.setTitle("Hobby Room");
 
         AnchorPane all = new AnchorPane();

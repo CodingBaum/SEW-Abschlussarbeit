@@ -5,9 +5,11 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 public class ServerHandler extends Thread {
-    Client user;
-    BufferedReader br;
-    BufferedWriter wr;
+    public Client user;
+    public BufferedReader br;
+    public BufferedWriter wr;
+
+    private Boolean running = true;
 
     public ServerHandler(Client user, BufferedWriter wr, BufferedReader br) {
         this.user = user;
@@ -21,17 +23,23 @@ public class ServerHandler extends Thread {
 
         String input = "";
 
-        while (true) {
+        while (running) {
             try {
-                input = br.readLine().replaceAll("\n", "");
+                input = br.readLine().replaceAll("\n", "").replaceAll("\r", "");
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (NullPointerException e) {
+                System.out.println("Client disconnected!");
             }
 
             MainPage.output(input);
 
-            System.out.println(input);
+            System.out.println("Incoming from Server: " + input);
         }
     }
 
+    public void close() {
+        running = false;
+        Thread.currentThread().interrupt();
+    }
 }

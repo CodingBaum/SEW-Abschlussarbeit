@@ -6,9 +6,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.nio.charset.MalformedInputException;
 
 public class Client extends Application {
     private Socket client;
@@ -18,12 +16,12 @@ public class Client extends Application {
     private String name;
     private ServerHandler serverHandler;
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) {
         Application.launch(args);
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         Login.loginPage(this).show();
     }
 
@@ -43,16 +41,46 @@ public class Client extends Application {
         nameRegex = br.readLine();
     }
 
-    public void setName(String name) throws IOException {
+    public boolean setName(String name) throws IOException {
         wr.write(name+"\n\r");
         wr.flush();
+
+        try {
+            serverHandler.wait(20);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        String response = br.readLine();
+
+        System.out.println(response);
+
+        if (response.contains("ungültig") || response.contains("vergeben")) {
+            return false;
+        }
+
         this.name = name;
 
         MainPage.mainStage(this).show();
+
+        return true;
     }
 
-    public void writeToServer(String s) throws IOException {
-        wr.write(s + "\n");
-        wr.flush();
+    public void writeToServer(String s) {
+        try {
+            wr.write(s + "\n");
+            wr.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void disconnect() {
+        serverHandler.close();
+        writeToServer("quit\n");
+    }
+
+    public String getName() {
+        return name;
     }
 }

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class Server {
     public static List<ClientHandler> clients = new LinkedList<>();
-    public static String nameValidation = "[a-zA-Z0-9]{3,20}";
+    public static String nameValidation = "[a-zA-Z0-9_]{3,20}";
     public static String privateMsgSyntax = "(" + nameValidation + "):(.*)";
 
     private static Map<ClientHandler, Integer> stats = new HashMap<>();
@@ -39,7 +39,7 @@ public class Server {
             }
         }
 
-        return "\n\rCurrent users: \n\r" + erg.stream().collect(Collectors.joining("\n\r")) + "\n\r";
+        return "\n\rCurrent users: \n\r" + erg.stream().collect(Collectors.joining("\n")) + "\n\r";
     }
 
     public static void broadCast(ClientHandler sender, String msg) {
@@ -53,7 +53,7 @@ public class Server {
             if (sender == null) {
                 c.write(msg + "\n\r");
             } else {
-                c.write("[PUBLIC] " + sender.USERNAME + ": " + msg + "\n\r");
+                c.write("[PUBLIC] " + sender.USERNAME + ": " + msg + "\n");
             }
         }
     }
@@ -64,9 +64,9 @@ public class Server {
         msg = msg.trim();
 
         if (to == null) {
-            sender.write("[SYSTEM] Dieser Benutzer existiert nicht!" + "\n\r");
+            sender.write("[SYSTEM] Dieser Benutzer existiert nicht!" + "\n");
         } else {
-            to.write("[PRIVATE] " + sender.USERNAME + ": " + msg + "\n\r");
+            to.write("[PRIVATE] " + sender.USERNAME + ": " + msg + "\n");
             stats.put(sender, stats.getOrDefault(sender, 0)+1);
         }
     }
