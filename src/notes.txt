@@ -1,0 +1,1 @@
+Chatrooms werden als Maps gescpeichert (Key ist der name, die Liste an Clients), haben eigene write methode die jeweilige Clients anschreibt

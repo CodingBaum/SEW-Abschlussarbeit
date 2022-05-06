@@ -65,9 +65,7 @@ public class ClientHandler extends Thread {
                 }
             }
 
-        } catch (IOException ignored) {}
-        catch (NullPointerException ignored) {}
-        finally {
+        } catch (IOException | NullPointerException ignored) {} finally {
             try {
                 disconnect();
             } catch (IOException ignored) {}
