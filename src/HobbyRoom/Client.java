@@ -24,6 +24,7 @@ public class Client extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Login.loginPage(this).show();
+        MainPage.mainStage(this).show();
     }
 
     public static void setPos(Node n, double x, double y) {
