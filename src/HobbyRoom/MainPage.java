@@ -36,8 +36,12 @@ public class MainPage {
         Button send = new Button("send");
         setPos(send, width/1.4, (height/8)*7);
         send.setOnAction(actionEvent -> {
-            user.writeToServer(input.getText());
-            output("[PUBLIC] DU: " + input.getText());
+            if (Client.commands.containsKey(input.getText())) {
+                Client.commands.get(input.getText()).apply(user);
+            } else {
+                user.writeToServer(input.getText());
+                output("[PUBLIC] DU: " + input.getText());
+            }
 
             input.setText("");
         });
