@@ -26,14 +26,15 @@ public class MainPage {
         double height = (screenSize.getHeight() -50)/2;
         double width = 700;
 
+        //Input feld ganz unten
         TextArea input = new TextArea();
         input.setPrefWidth(width/1.5);
         input.setPrefHeight(height/8);
         setPos(input, 0, (height/8)*7);
 
+        //erstellt den Button um die Nachricht zu versenden
         Button send = new Button("send");
         setPos(send, width/1.4, (height/8)*7);
-
         send.setOnAction(actionEvent -> {
             user.writeToServer(input.getText());
             output("[PUBLIC] DU: " + input.getText());
@@ -41,10 +42,12 @@ public class MainPage {
             input.setText("");
         });
 
+        //Falls fenster geschlossen wird, wird Client disconnected
         stage.setOnCloseRequest(closeEvent -> {
             user.disconnect();
         });
 
+        //Chatlog oben
         output = new TextArea();
         output.setWrapText(true);
         output.setPrefHeight(height/1.5);
