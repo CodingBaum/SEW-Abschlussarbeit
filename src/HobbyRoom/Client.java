@@ -7,9 +7,11 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
 public class Client extends Application {
     private Socket client;
@@ -20,12 +22,22 @@ public class Client extends Application {
     private ServerHandler serverHandler;
     private Stage mainStage;
 
-    public static Map<String, UnaryOperator<Client>> commands = new HashMap<>();
+    public static Map<String, UnaryOperator<Object[]>> commands = new HashMap<>();
 
     {
         commands.put("quit", x -> {
-            x.disconnect();
+            disconnect();
             mainStage.close();
+            return null;
+        });
+
+        commands.put("msg", x -> {
+            String user = x[0].toString();
+
+            x[0] = "";
+
+            writeToServer(user + ":" + Arrays.stream(x).map(Object::toString).collect(Collectors.joining("")));
+
             return null;
         });
     }

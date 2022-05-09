@@ -7,10 +7,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import static HobbyRoom.Client.setPos;
 
@@ -43,8 +44,26 @@ public class MainPage {
         );
         setPos(send, width/1.53, (height/8)*7+5);
         send.setOnAction(actionEvent -> {
-            if (Client.commands.containsKey(input.getText())) {
-                Client.commands.get(input.getText()).apply(user);
+            String in = input.getText();
+
+            if (in.startsWith("/")) {
+                in = in.substring(1);
+
+                Object[] args = new Object[0];
+                String command = in;
+
+                if (in.contains(" ")) {
+                    command = in.split(" ")[0];
+                    args = in.split(" ");
+                    String finalCommand = command;
+                    args = Arrays.stream(args).filter(x -> !x.equals(finalCommand)).collect(Collectors.toList()).toArray();
+                }
+
+                if (Client.commands.containsKey(command)) {
+                    Client.commands.get(command).apply(args);
+                } else {
+                    output("[ERROR] Dieser Befehl existiert nicht!");
+                }
             } else {
                 user.writeToServer(input.getText());
                 output("[PUBLIC] DU: " + input.getText());

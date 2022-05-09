@@ -27,9 +27,6 @@ public class ClientHandler extends Thread {
 
             do {
                 nameInput = br.readLine();
-
-                System.out.println("name input: " + nameInput);
-
             } while (!Server.validateName(this, nameInput));
 
             USERNAME = nameInput;
