@@ -30,6 +30,8 @@ public class ServerHandler extends Thread {
                 e.printStackTrace();
             } catch (NullPointerException e) {
                 System.out.println("Client disconnected!");
+                System.out.println(running);
+                running = false;
             }
 
             MainPage.output(input);

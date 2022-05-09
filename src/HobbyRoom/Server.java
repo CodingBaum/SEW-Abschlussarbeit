@@ -81,9 +81,11 @@ public class Server {
     public static boolean validateName(ClientHandler client, String name) {
         if (!name.matches(nameValidation)) {
             client.write("[SYSTEM] Dieser Name ist ungültig!\n\r");
+            System.out.println("ungültig: " + name);
             return false;
         } else if (clients.stream().filter(x -> x.USERNAME.equals(name)).map(x -> x.USERNAME).collect(Collectors.toList()).contains(name)) {
             client.write("[SYSTEM] Dieser Name ist bereits vergeben!\n\r");
+            System.out.println("vergeben: " + name);
             return false;
         } else {
             client.write("[SYSTEM] Willkommen " + name + "!\n\r");

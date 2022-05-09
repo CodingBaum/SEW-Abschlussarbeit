@@ -35,9 +35,6 @@ public class Client extends Application {
         br = new BufferedReader(new InputStreamReader(this.client.getInputStream()));
         wr = new BufferedWriter(new OutputStreamWriter(this.client.getOutputStream()));
 
-        serverHandler = new ServerHandler(this, wr, br);
-        serverHandler.start();
-
         nameRegex = br.readLine();
     }
 
@@ -45,19 +42,20 @@ public class Client extends Application {
         wr.write(name+"\n\r");
         wr.flush();
 
-        try {
-            serverHandler.wait(20);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         String response = br.readLine();
+
+        System.out.println(response);
+
+        response = br.readLine();
 
         System.out.println(response);
 
         if (response.contains("ungültig") || response.contains("vergeben")) {
             return false;
         }
+
+        serverHandler = new ServerHandler(this, wr, br);
+        serverHandler.start();
 
         this.name = name;
 
