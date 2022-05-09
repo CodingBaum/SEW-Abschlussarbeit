@@ -30,8 +30,10 @@ public class Login {
 
         TextField ipInput = new TextField();
         setPos(ipInput, 90, 100);
+        ipInput.setText("127.0.0.1");
         TextField portInput = new TextField();
         setPos(portInput, 280, 100);
+        portInput.setText("42069");
 
         Button connect = new Button("connect");
         setPos(connect, 200, 180);
@@ -77,7 +79,6 @@ public class Login {
         all.getChildren().addAll(title, input, submit);
 
         submit.setOnAction(actionEvent -> {
-            System.out.println(input.getText());
 
             if (!input.getText().matches(user.nameRegex)) {
                 errorMessage("Dieser Name ist nicht erlaubt!").show();

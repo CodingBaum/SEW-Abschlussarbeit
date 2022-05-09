@@ -20,7 +20,7 @@ public class ClientHandler extends Thread {
             br = new BufferedReader(new InputStreamReader(client.getInputStream()));
             wr = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
 
-            wr.write(Server.nameValidation+"\n\r");
+            wr.write(Server.nameValidation+"\n");
             wr.flush();
 
             String nameInput;
@@ -42,7 +42,7 @@ public class ClientHandler extends Thread {
                 }
 
                 if (input.equals("list")) {
-                    wr.write(Server.getAllUsers() + "\n\r");
+                    wr.write(Server.getAllUsers() + "\n");
                     wr.flush();
                 } else if (input.equals("quit")) {
                     wr.close();
@@ -54,7 +54,7 @@ public class ClientHandler extends Thread {
                     String msg = pattern.matcher(input).replaceFirst(x -> x.group(2));
                     Server.sendMessage(this, target, msg);
                 } else if (input.equals("stat")) {
-                    wr.write(Server.printStats() + "\n\r");
+                    wr.write(Server.printStats() + "\n");
                     wr.flush();
                 } else {
                     Server.broadCast(this, input);

@@ -39,7 +39,7 @@ public class Server {
             }
         }
 
-        return "\n\rCurrent users: \n\r" + erg.stream().collect(Collectors.joining("\n")) + "\n\r";
+        return "\nCurrent users: \n" + erg.stream().collect(Collectors.joining("\n")) + "\n";
     }
 
     public static void broadCast(ClientHandler sender, String msg) {
@@ -51,7 +51,7 @@ public class Server {
 
         for (ClientHandler c :ja) {
             if (sender == null) {
-                c.write(msg + "\n\r");
+                c.write(msg + "\n");
             } else {
                 c.write("[PUBLIC] " + sender.USERNAME + ": " + msg + "\n");
             }
@@ -74,22 +74,22 @@ public class Server {
     public static void disconnectUser(ClientHandler client) {
         if (client.USERNAME != null) {
             clients.remove(client);
-            broadCast(null, "[SYSTEM] " + client.USERNAME + " hat den Raum verlassen.\n\r");
+            broadCast(null, "[SYSTEM] " + client.USERNAME + " hat den Raum verlassen.\n");
         }
     }
 
     public static boolean validateName(ClientHandler client, String name) {
         if (!name.matches(nameValidation)) {
-            client.write("[SYSTEM] Dieser Name ist ungültig!\n\r");
+            client.write("[SYSTEM] Dieser Name ist ungültig!\n");
             System.out.println("ungültig: " + name);
             return false;
         } else if (clients.stream().filter(x -> x.USERNAME.equals(name)).map(x -> x.USERNAME).collect(Collectors.toList()).contains(name)) {
-            client.write("[SYSTEM] Dieser Name ist bereits vergeben!\n\r");
+            client.write("[SYSTEM] Dieser Name ist bereits vergeben!\n");
             System.out.println("vergeben: " + name);
             return false;
         } else {
-            client.write("[SYSTEM] Willkommen " + name + "!\n\r");
-            broadCast(null, "[SYSTEM] " + name + " hat den Raum betreten.\n\r");
+            client.write("[SYSTEM] Willkommen " + name + "!\n");
+            broadCast(null, "[SYSTEM] " + name + " hat den Raum betreten.\n");
             clients.add(client);
             stats.put(client, 0);
             return true;
@@ -97,11 +97,11 @@ public class Server {
     }
 
     public static String printStats() {
-        return "\n\rStatistics: \n\r" + stats.keySet().stream().sorted(new Comparator<ClientHandler>() {
+        return "\nStatistics: \n" + stats.keySet().stream().sorted(new Comparator<ClientHandler>() {
             @Override
             public int compare(ClientHandler o1, ClientHandler o2) {
                 return o1.USERNAME.compareTo(o2.USERNAME);
             }
-        }).map(x -> "   " + x.USERNAME + ": " + stats.getOrDefault(x, 0)).collect(Collectors.joining("\n\r")) + "\n\r";
+        }).map(x -> "   " + x.USERNAME + ": " + stats.getOrDefault(x, 0)).collect(Collectors.joining("\n")) + "\n";
     }
 }

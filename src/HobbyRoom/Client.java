@@ -7,6 +7,9 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.UnaryOperator;
 
 public class Client extends Application {
     private Socket client;
@@ -15,6 +18,17 @@ public class Client extends Application {
     private static BufferedReader br;
     private String name;
     private ServerHandler serverHandler;
+    private Stage mainStage;
+
+    public static Map<String, UnaryOperator<Client>> commands = new HashMap<>();
+
+    {
+        commands.put("quit", x -> {
+            x.disconnect();
+            mainStage.close();
+            return null;
+        });
+    }
 
     public static void main(String[] args) {
         Application.launch(args);
@@ -39,16 +53,10 @@ public class Client extends Application {
     }
 
     public boolean setName(String name) throws IOException {
-        wr.write(name+"\n\r");
+        wr.write(name+"\n");
         wr.flush();
 
         String response = br.readLine();
-
-        System.out.println(response);
-
-        response = br.readLine();
-
-        System.out.println(response);
 
         if (response.contains("ungültig") || response.contains("vergeben")) {
             return false;
@@ -59,7 +67,11 @@ public class Client extends Application {
 
         this.name = name;
 
-        MainPage.mainStage(this).show();
+        mainStage = MainPage.mainStage(this);
+
+        mainStage.show();
+
+        MainPage.output(response);
 
         return true;
     }
