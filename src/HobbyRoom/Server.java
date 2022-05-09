@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class Server {
     public static List<ClientHandler> clients = new LinkedList<>();
-    public static String nameValidation = "[a-zA-Z0-9_]{3,20}";
+    public static String nameValidation = "([a-zA-Z0-9_]{3,20})|(-+)";
     public static String privateMsgSyntax = "(" + nameValidation + "):(.*)";
 
     private static Map<ClientHandler, Integer> stats = new HashMap<>();
