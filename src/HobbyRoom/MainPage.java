@@ -3,7 +3,11 @@ package HobbyRoom;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -28,13 +32,16 @@ public class MainPage {
 
         //Input feld ganz unten
         TextArea input = new TextArea();
-        input.setPrefWidth(width/1.5);
+        input.setPrefWidth(width/1.5-20);
         input.setPrefHeight(height/8);
         setPos(input, 0, (height/8)*7);
 
         //erstellt den Button um die Nachricht zu versenden
         Button send = new Button("send");
-        setPos(send, width/1.4, (height/8)*7);
+        send.setStyle(
+                "-fx-padding: 5;"
+        );
+        setPos(send, width/1.53, (height/8)*7+5);
         send.setOnAction(actionEvent -> {
             if (Client.commands.containsKey(input.getText())) {
                 Client.commands.get(input.getText()).apply(user);
@@ -56,8 +63,25 @@ public class MainPage {
         output.setWrapText(true);
         output.setPrefHeight(height/1.5);
 
+        //erstellt eine VBox um den rand rechts zu erstellen
+        VBox v = new VBox();
+        v.setPrefHeight(height);
+        v.setPrefWidth(width-width/1.4);
+        setPos(v,width/1.4, 0);
+        //benutzt fxcss um unter anderen eine border zu erstellen
+        v.setStyle(
+                "-fx-border-style: solid inside;" +
+                "-fx-border-width: 2;" +
+                "-fx-border-insets: 5;" +
+                "-fx-border-radius: 5;" +
+                "-fx-border-color: black;"
+        );
 
-        main.getChildren().addAll(input, output, send);
+        Button bosna = new Button();
+        setPos(bosna, width/1.3, 10);
+        bosna.setGraphic(new ImageView(new Image("res/minesweeper.png")));
+
+        main.getChildren().addAll(input, output, send, v, bosna);
 
         Scene scene = new Scene(main, width, height);
         stage.setScene(scene);
