@@ -62,7 +62,7 @@ public class MainPage {
 
     public static void output(String s) {
         if (output == null) return;
-
+        //gibt nur ein einfaches /n hinter den text damit nicht alles in einer Zeile ist
         output.appendText(s + "\n");
     }
 }
