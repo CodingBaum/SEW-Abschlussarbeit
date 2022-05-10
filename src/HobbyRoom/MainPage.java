@@ -93,11 +93,20 @@ public class MainPage {
                 "-fx-border-color: black;"
         );
 
+        //Button um Minesweeper zu starten
         Button bosna = new Button();
         setPos(bosna, width/1.3, 10);
         bosna.setGraphic(new ImageView(new Image("res/minesweeper.png")));
+        bosna.setOnAction(actionEvent -> {
+            System.out.println("Launche Minesweeper");
+        });
 
-        main.getChildren().addAll(input, output, send, v, bosna);
+        //Button für Tic Tac Toe
+        Button ttt = new Button();
+        setPos(ttt, width/1.3, 10+height/3);
+        ttt.setGraphic(new ImageView(new Image("res/ttt.png")));
+
+        main.getChildren().addAll(input, output, send, v, bosna, ttt);
 
         Scene scene = new Scene(main, width, height);
         stage.setScene(scene);
