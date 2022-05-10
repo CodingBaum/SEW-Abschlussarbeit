@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import static HobbyRoom.Client.setPos;
 
@@ -56,7 +55,7 @@ public class MainPage {
                     command = in.split(" ")[0];
                     args = in.split(" ");
                     String finalCommand = command;
-                    args = Arrays.stream(args).filter(x -> !x.equals(finalCommand)).collect(Collectors.toList()).toArray();
+                    args = Arrays.stream(args).filter(x -> !x.equals(finalCommand)).toList().toArray();
                 }
 
                 if (Client.commands.containsKey(command)) {
@@ -73,9 +72,7 @@ public class MainPage {
         });
 
         //Falls fenster geschlossen wird, wird Client disconnected
-        stage.setOnCloseRequest(closeEvent -> {
-            user.disconnect();
-        });
+        stage.setOnCloseRequest(closeEvent -> user.disconnect());
 
         //Chatlog oben
         output = new TextArea();
