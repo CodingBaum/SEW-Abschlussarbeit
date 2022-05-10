@@ -38,6 +38,12 @@ public class ClientHandler extends Thread {
                     continue;
                 }
 
+                if (input.startsWith("ttt:")) {
+                    // tictactoe handling
+
+                    write("no");
+                }
+
                 if (input.equals("list")) {
                     wr.write(Server.getAllUsers() + "\n");
                     wr.flush();

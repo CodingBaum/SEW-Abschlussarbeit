@@ -1,5 +1,6 @@
 package HobbyRoom;
 
+import HobbyRoom.Games.Tictactoe;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -97,14 +98,13 @@ public class MainPage {
         Button bosna = new Button();
         setPos(bosna, width/1.3, 10);
         bosna.setGraphic(new ImageView(new Image("res/minesweeper.png")));
-        bosna.setOnAction(actionEvent -> {
-            System.out.println("Launche Minesweeper");
-        });
+        bosna.setOnAction(actionEvent -> System.out.println("Launche Minesweeper"));
 
         //Button für Tic Tac Toe
         Button ttt = new Button();
         setPos(ttt, width/1.3, 10+height/3);
         ttt.setGraphic(new ImageView(new Image("res/ttt.png")));
+        ttt.setOnAction(actionEvent -> Tictactoe.launchGame(user));
 
         main.getChildren().addAll(input, output, send, v, bosna, ttt);
 
