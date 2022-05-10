@@ -118,9 +118,7 @@ public class Login {
 
         all.getChildren().addAll(title, accept);
 
-        accept.setOnAction(actionEvent -> {
-            stage.close();
-        });
+        accept.setOnAction(actionEvent -> stage.close());
 
         Scene scene = new Scene(all, 280, 120);
         stage.setScene(scene);
