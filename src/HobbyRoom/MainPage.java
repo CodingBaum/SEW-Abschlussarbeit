@@ -34,14 +34,14 @@ public class MainPage {
         TextArea input = new TextArea();
         input.setPrefWidth(width/1.5-20);
         input.setPrefHeight(height/8);
-        setPos(input, 0, (height/8)*7);
+        setPos(input, 2, (height/8)*6.5);
 
         //erstellt den Button um die Nachricht zu versenden
         Button send = new Button("send");
         send.setStyle(
                 "-fx-padding: 5;"
         );
-        setPos(send, width/1.53, (height/8)*7+5);
+        setPos(send, width/1.53, (height/8)*6.5+10);
         send.setOnAction(actionEvent -> {
             String in = input.getText();
 
@@ -106,12 +106,19 @@ public class MainPage {
         setPos(ttt, width/1.3, 10+height/3);
         ttt.setGraphic(new ImageView(new Image("res/ttt.png")));
 
-        main.getChildren().addAll(input, output, send, v, bosna, ttt);
+        //Blackjack Button
+        Button bj = new Button();
+        setPos(bj, width/1.3, 10+(height/3)*2);
+        bj.setGraphic(new ImageView(new Image("res/bj.png")));
+
+        main.getChildren().addAll(input, output, send, v, bosna, ttt, bj);
 
         Scene scene = new Scene(main, width, height);
         stage.setScene(scene);
         return stage;
     }
+
+
 
     public static void output(String s) {
         if (output == null) return;
