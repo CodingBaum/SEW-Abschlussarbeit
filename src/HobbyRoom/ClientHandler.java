@@ -2,6 +2,8 @@ package HobbyRoom;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class ClientHandler extends Thread {
@@ -41,7 +43,25 @@ public class ClientHandler extends Thread {
                 if (input.startsWith("ttt:")) {
                     // tictactoe handling
 
-                    write("no");
+                    // CLNINI  initiate
+                    // CLNACC  accept
+                    // CLNREJ  reject
+                    // CLNREQ  request
+
+                    String[] args = input.split("ttt:");
+
+                    if (args[1].equals("CLNINI")) {
+                        if (!Server.checkUser(args[2])) {
+                            write("ttt:CLNREJ:User does not exist");
+                        } else {
+                            Server.clients.stream().filter(x -> x.USERNAME.equals(args[2])).findFirst().get().write("ttt:CLNREQ:" + USERNAME);
+                            List<ClientHandler> temp = new ArrayList<>();
+                            temp.add(this);
+                            Server.tictactoeGames.add(temp);
+                        }
+                    } else if (args[1].equals("CLNACC")) {
+
+                    }
                 }
 
                 if (input.equals("list")) {

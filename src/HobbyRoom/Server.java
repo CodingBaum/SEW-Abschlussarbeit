@@ -13,6 +13,8 @@ public class Server {
 
     private static Map<ClientHandler, Integer> stats = new HashMap<>();
 
+    public static List<List<ClientHandler>> tictactoeGames = new ArrayList<>();
+
     public static void main(String[] args) {
         try (ServerSocket server = new ServerSocket(42069))
         {
@@ -63,7 +65,7 @@ public class Server {
 
         msg = msg.trim();
 
-        if (to == null) {
+        if (!checkUser(target)) {
             sender.write("[SYSTEM] Dieser Benutzer existiert nicht!" + "\n");
         } else {
             to.write("[PRIVATE] " + sender.USERNAME + ": " + msg + "\n");
@@ -83,7 +85,7 @@ public class Server {
             client.write("[SYSTEM] Dieser Name ist ungültig!\n");
             System.out.println("ungültig: " + name);
             return false;
-        } else if (clients.stream().filter(x -> x.USERNAME.equals(name)).map(x -> x.USERNAME).collect(Collectors.toList()).contains(name)) {
+        } else if (checkUser(name)) {
             client.write("[SYSTEM] Dieser Name ist bereits vergeben!\n");
             System.out.println("vergeben: " + name);
             return false;
@@ -103,5 +105,10 @@ public class Server {
                 return o1.USERNAME.compareTo(o2.USERNAME);
             }
         }).map(x -> "   " + x.USERNAME + ": " + stats.getOrDefault(x, 0)).collect(Collectors.joining("\n")) + "\n";
+    }
+
+    public static boolean checkUser(String name) {
+        // checking whether a user with a certain username is connected to the server
+        return Server.clients.stream().map(x -> x.USERNAME).filter(x -> x.equals(name)).toList().size() == 1;
     }
 }
