@@ -11,6 +11,12 @@ public class ServerHandler extends Thread {
 
     private Boolean running = true;
 
+    // if set true some thread is waiting for a server input
+    private Boolean awaited = false;
+
+    // output to other class
+    private String out = null;
+
     public ServerHandler(Client user, BufferedWriter wr, BufferedReader br) {
         this.user = user;
         this.br = br;
@@ -26,6 +32,11 @@ public class ServerHandler extends Thread {
         while (running) {
             try {
                 input = br.readLine().replaceAll("\n", "").replaceAll("\r", "");
+                if (awaited) {
+                    awaited = false;
+                    out = input;
+                    continue;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (NullPointerException e) {
@@ -42,5 +53,19 @@ public class ServerHandler extends Thread {
     public void close() {
         running = false;
         Thread.currentThread().interrupt();
+    }
+
+    public String receive() { // tells the thread to return the next incoming stream from the server
+        awaited = true;
+        while (out == null) {
+            try {
+                sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        String erg = out;
+        out = null;
+        return erg;
     }
 }

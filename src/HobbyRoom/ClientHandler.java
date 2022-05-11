@@ -3,6 +3,7 @@ package HobbyRoom;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -36,6 +37,8 @@ public class ClientHandler extends Thread {
             while (true) {
                 String input = br.readLine();
 
+                System.out.println(input);
+
                 if (input.isBlank()) {
                     continue;
                 }
@@ -48,20 +51,27 @@ public class ClientHandler extends Thread {
                     // CLNREJ  reject
                     // CLNREQ  request
 
-                    String[] args = input.split("ttt:");
+                    String[] args = input.split(":");
+
+                    System.out.println(Arrays.toString(args));
 
                     if (args[1].equals("CLNINI")) {
-                        if (!Server.checkUser(args[2])) {
+                        wr.write("ttt:CLNACC\n");
+                        wr.flush();
+                        //write("ttt:CLNACC");
+
+                        /*if (!Server.checkUser(args[2])) {
                             write("ttt:CLNREJ:User does not exist");
                         } else {
                             Server.clients.stream().filter(x -> x.USERNAME.equals(args[2])).findFirst().get().write("ttt:CLNREQ:" + USERNAME);
                             List<ClientHandler> temp = new ArrayList<>();
                             temp.add(this);
                             Server.tictactoeGames.add(temp);
-                        }
+                        }*/
                     } else if (args[1].equals("CLNACC")) {
 
                     }
+                    continue;
                 }
 
                 if (input.equals("list")) {

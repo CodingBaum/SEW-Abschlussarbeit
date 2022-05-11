@@ -50,6 +50,11 @@ public class Tictactoe {
         all.getChildren().addAll(title, input, accept);
 
         accept.setOnAction(actionEvent -> {
+            client.writeToServer("ttt:CLNINI:"+input.getText());
+            String ja = client.getFromServer();
+            if (!ja.split(":")[1].equals("CLNACC")) {
+                return;
+            }
             launchGame(client, input.getText());
             stage.close();
         });

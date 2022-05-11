@@ -105,4 +105,8 @@ public class Client extends Application {
     public String getName() {
         return name;
     }
+
+    public String getFromServer() {
+        return serverHandler.receive();
+    }
 }
