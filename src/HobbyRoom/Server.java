@@ -41,11 +41,11 @@ public class Server {
             }
         }
 
-        return "\nCurrent users: \n" + erg.stream().collect(Collectors.joining("\n")) + "\n";
+        return "\nCurrent users: \n" + String.join("\n", erg) + "\n";
     }
 
     public static void broadCast(ClientHandler sender, String msg) {
-        List<ClientHandler> ja = sender == null ? clients : clients.stream().filter(x -> !x.equals(sender)).collect(Collectors.toList());
+        List<ClientHandler> ja = sender == null ? clients : clients.stream().filter(x -> !x.equals(sender)).toList();
 
         if (sender != null) {
             stats.put(sender, stats.getOrDefault(sender, 0)+1);
@@ -99,12 +99,7 @@ public class Server {
     }
 
     public static String printStats() {
-        return "\nStatistics: \n" + stats.keySet().stream().sorted(new Comparator<ClientHandler>() {
-            @Override
-            public int compare(ClientHandler o1, ClientHandler o2) {
-                return o1.USERNAME.compareTo(o2.USERNAME);
-            }
-        }).map(x -> "   " + x.USERNAME + ": " + stats.getOrDefault(x, 0)).collect(Collectors.joining("\n")) + "\n";
+        return "\nStatistics: \n" + stats.keySet().stream().sorted(Comparator.comparing(o -> o.USERNAME)).map(x -> "   " + x.USERNAME + ": " + stats.getOrDefault(x, 0)).collect(Collectors.joining("\n")) + "\n";
     }
 
     public static boolean checkUser(String name) {

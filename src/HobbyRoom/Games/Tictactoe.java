@@ -1,6 +1,7 @@
 package HobbyRoom.Games;
 
 import HobbyRoom.Client;
+import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,10 +13,10 @@ import javafx.stage.Stage;
 import static HobbyRoom.Client.setPos;
 
 public class Tictactoe {
+
     public static Stage createStage(Client client) {
         Stage stage = new Stage();
         stage.setResizable(false);
-        stage.setAlwaysOnTop(true);
         stage.setTitle("Tictactoe");
 
         GridPane grid = new GridPane();
@@ -51,7 +52,7 @@ public class Tictactoe {
 
         accept.setOnAction(actionEvent -> {
             client.writeToServer("ttt:CLNINI:"+input.getText());
-            String ja = client.getFromServer();
+            String ja = client.getFromServer("ttt");
             if (!ja.split(":")[1].equals("CLNACC")) {
                 return;
             }
@@ -63,5 +64,14 @@ public class Tictactoe {
         stage.setScene(scene);
 
         stage.show();
+    }
+
+    public static void request(Client client, String challenger) {
+        try {
+            TictactoeRequest request = new TictactoeRequest(client, challenger);
+            request.start(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

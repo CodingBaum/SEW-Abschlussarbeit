@@ -1,8 +1,12 @@
 package HobbyRoom;
 
+import HobbyRoom.Games.Tictactoe;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ServerHandler extends Thread {
     public Client user;
@@ -11,11 +15,8 @@ public class ServerHandler extends Thread {
 
     private Boolean running = true;
 
-    // if set true some thread is waiting for a server input
-    private Boolean awaited = false;
-
-    // output to other class
-    private String out = null;
+    // if entry exists some thread is waiting for a server input
+    private final Map<String, String> awaited = new HashMap<>();
 
     public ServerHandler(Client user, BufferedWriter wr, BufferedReader br) {
         this.user = user;
@@ -32,9 +33,8 @@ public class ServerHandler extends Thread {
         while (running) {
             try {
                 input = br.readLine().replaceAll("\n", "").replaceAll("\r", "");
-                if (awaited) {
-                    awaited = false;
-                    out = input;
+                if (awaited.containsKey(input.split(":")[0])) {
+                    awaited.put(input.split(":")[0], input);
                     continue;
                 }
             } catch (IOException e) {
@@ -42,6 +42,11 @@ public class ServerHandler extends Thread {
             } catch (NullPointerException e) {
                 System.out.println("Client disconnected!");
                 running = false;
+            }
+
+            if (input.startsWith("ttt:CLNREQ")) {
+                Tictactoe.request(user, input.split(":")[2]);
+                continue;
             }
 
             MainPage.output(input);
@@ -55,17 +60,17 @@ public class ServerHandler extends Thread {
         Thread.currentThread().interrupt();
     }
 
-    public String receive() { // tells the thread to return the next incoming stream from the server
-        awaited = true;
-        while (out == null) {
+    public String receive(String prefix) { // tells the thread to return the next incoming stream from the server
+        awaited.put(prefix, null);
+        while (awaited.get(prefix) == null) {
             try {
                 sleep(5);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        String erg = out;
-        out = null;
+        String erg = awaited.get(prefix);
+        awaited.remove(prefix);
         return erg;
     }
 }

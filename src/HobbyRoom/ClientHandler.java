@@ -56,6 +56,20 @@ public class ClientHandler extends Thread {
                     System.out.println(Arrays.toString(args));
 
                     if (args[1].equals("CLNINI")) {
+
+                        if(Server.checkUser(args[2])) {
+                            ClientHandler challenged = Server.clients.stream().filter(x -> x.USERNAME.equals(args[2])).findFirst().get();
+                            challenged.write("ttt:CLNREQ:"+this.USERNAME + "\n");
+                            System.out.println("request sent to " + args[2]);
+
+                            List<ClientHandler> players = new ArrayList<>();
+
+                            players.add(this);
+                            players.add(challenged);
+
+                            Server.tictactoeGames.add(players);
+                        }
+
                         wr.write("ttt:CLNACC\n");
                         wr.flush();
                         //write("ttt:CLNACC");

@@ -1,5 +1,6 @@
 package HobbyRoom;
 
+import HobbyRoom.Games.Tictactoe;
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
@@ -106,7 +107,7 @@ public class Client extends Application {
         return name;
     }
 
-    public String getFromServer() {
-        return serverHandler.receive();
+    public String getFromServer(String prefix) {
+        return serverHandler.receive(prefix);
     }
 }
