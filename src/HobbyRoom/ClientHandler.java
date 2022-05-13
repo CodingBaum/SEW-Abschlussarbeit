@@ -53,8 +53,6 @@ public class ClientHandler extends Thread {
 
                     String[] args = input.split(":");
 
-                    System.out.println(Arrays.toString(args));
-
                     if (args[1].equals("CLNINI")) {
 
                         if(Server.checkUser(args[2])) {
@@ -70,10 +68,6 @@ public class ClientHandler extends Thread {
                             Server.tictactoeGames.add(players);
                         }
 
-                        wr.write("ttt:CLNACC\n");
-                        wr.flush();
-                        //write("ttt:CLNACC");
-
                         /*if (!Server.checkUser(args[2])) {
                             write("ttt:CLNREJ:User does not exist");
                         } else {
@@ -83,7 +77,8 @@ public class ClientHandler extends Thread {
                             Server.tictactoeGames.add(temp);
                         }*/
                     } else if (args[1].equals("CLNACC")) {
-
+                        System.out.println("received an accept");
+                        Server.tictactoeGames.stream().filter(x -> x.get(1).equals(this)).findFirst().get().get(0).write("ttt:CLNACC\n");
                     }
                     continue;
                 }

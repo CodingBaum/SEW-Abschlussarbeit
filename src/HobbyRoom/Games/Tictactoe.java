@@ -51,9 +51,14 @@ public class Tictactoe {
         all.getChildren().addAll(title, input, accept);
 
         accept.setOnAction(actionEvent -> {
-            client.writeToServer("ttt:CLNINI:"+input.getText());
+            Stage waitingStage = waiting();
+            waitingStage.show();
             String ja = client.getFromServer("ttt");
+            client.writeToServer("ttt:CLNINI:"+input.getText());
+            waitingStage.close();
+            System.out.println(ja);
             if (!ja.split(":")[1].equals("CLNACC")) {
+                System.out.println("received challange accept!!!!");
                 return;
             }
             launchGame(client, input.getText());
@@ -73,5 +78,24 @@ public class Tictactoe {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static Stage waiting() {
+        Stage stage = new Stage();
+        stage.setResizable(false);
+        stage.setAlwaysOnTop(true);
+        stage.setTitle("Tictactoe");
+
+        AnchorPane all = new AnchorPane();
+
+        Label title = new Label("Warten auf eine Antwort");
+        setPos(title, 30, 30);
+
+        all.getChildren().addAll(title);
+
+        Scene scene = new Scene(all, 280, 120);
+        stage.setScene(scene);
+
+        return stage;
     }
 }
