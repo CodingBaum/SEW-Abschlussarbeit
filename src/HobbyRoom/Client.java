@@ -2,6 +2,7 @@ package HobbyRoom;
 
 import HobbyRoom.Games.Tictactoe;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -28,7 +29,6 @@ public class Client extends Application {
     {
         commands.put("quit", x -> {
             disconnect();
-            mainStage.close();
             return null;
         });
 
@@ -99,15 +99,17 @@ public class Client extends Application {
     }
 
     public void disconnect() {
-        serverHandler.close();
+        System.out.println("quit!");
         writeToServer("quit\n");
+
+        Platform.exit();
     }
 
     public String getName() {
         return name;
     }
 
-    public String getFromServer(String prefix) {
-        return serverHandler.receive(prefix);
+    public String getFromServer(String prefix, String msg) {
+        return serverHandler.receive(prefix, msg);
     }
 }

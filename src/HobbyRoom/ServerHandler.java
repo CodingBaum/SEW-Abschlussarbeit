@@ -1,6 +1,7 @@
 package HobbyRoom;
 
 import HobbyRoom.Games.Tictactoe;
+import javafx.application.Platform;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -47,7 +48,15 @@ public class ServerHandler extends Thread {
             if (input.startsWith("ttt:CLNREQ")) {
                 //Tictactoe.request(user, input.split(":")[2]);
                 System.out.println("challenged to a game of tictactoe by " + input.split(":")[2]);
-                user.writeToServer("ttt:CLNACC");
+                String finalInput = input;
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        Tictactoe.request(user, finalInput.split(":")[2]);
+                    }
+                });
+                //Tictactoe.request(user, input.split(":")[2]);
+                //user.writeToServer("ttt:CLNACC");
                 continue;
             }
 
@@ -62,8 +71,9 @@ public class ServerHandler extends Thread {
         Thread.currentThread().interrupt();
     }
 
-    public String receive(String prefix) { // tells the thread to return the next incoming stream from the server
+    public String receive(String prefix, String msg) { // tells the thread to return the next incoming stream from the server
         awaited.put(prefix, null);
+        user.writeToServer(msg);
         while (awaited.get(prefix) == null) {
             try {
                 sleep(5);

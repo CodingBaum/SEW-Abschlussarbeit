@@ -51,11 +51,11 @@ public class Tictactoe {
         all.getChildren().addAll(title, input, accept);
 
         accept.setOnAction(actionEvent -> {
-            Stage waitingStage = waiting();
-            waitingStage.show();
-            String ja = client.getFromServer("ttt");
-            client.writeToServer("ttt:CLNINI:"+input.getText());
-            waitingStage.close();
+            //Stage waitingStage = waiting();
+            //waitingStage.show();
+            //client.writeToServer();
+            String ja = client.getFromServer("ttt", "ttt:CLNINI:"+input.getText());
+            //waitingStage.close();
             System.out.println(ja);
             if (!ja.split(":")[1].equals("CLNACC")) {
                 System.out.println("received challange accept!!!!");
