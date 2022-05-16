@@ -1,6 +1,7 @@
 package HobbyRoom.Games;
 
 import HobbyRoom.Client;
+import HobbyRoom.Login;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -53,15 +54,18 @@ public class Tictactoe {
         accept.setOnAction(actionEvent -> {
             //Stage waitingStage = waiting();
             //waitingStage.show();
-            //client.writeToServer();
             String ja = client.getFromServer("ttt", "ttt:CLNINI:"+input.getText());
             //waitingStage.close();
             System.out.println(ja);
-            if (!ja.split(":")[1].equals("CLNACC")) {
+            if (ja.split(":")[1].equals("CLNACC")) {
                 System.out.println("received challange accept!!!!");
-                return;
+                launchGame(client, input.getText());
             }
-            launchGame(client, input.getText());
+            if (ja.split(":")[1].equals("CLNREJ")) {
+                System.out.println("get fucked noob");
+                Login.errorMessage("Deine Herausforderung wurde von " + input.getText() + " abgelehnt!");
+            }
+
             stage.close();
         });
 

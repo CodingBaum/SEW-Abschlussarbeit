@@ -77,8 +77,9 @@ public class ClientHandler extends Thread {
                             Server.tictactoeGames.add(temp);
                         }*/
                     } else if (args[1].equals("CLNACC")) {
-                        System.out.println("received an accept");
                         Server.tictactoeGames.stream().filter(x -> x.get(1).equals(this)).findFirst().get().get(0).write("ttt:CLNACC\n");
+                    } else if (args[1].equals("CLNREJ")) {
+                        Server.tictactoeGames.stream().filter(x -> x.get(1).equals(this)).findFirst().get().get(0).write("ttt:CLNREJ\n");
                     }
                     continue;
                 }

@@ -99,10 +99,8 @@ public class Client extends Application {
     }
 
     public void disconnect() {
-        System.out.println("quit!");
         writeToServer("quit\n");
-
-        Platform.exit();
+        System.exit(0);
     }
 
     public String getName() {

@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="SEW Abschlussarbeit:jar">
+  <artifact type="jar" build-on-make="true" name="SEW Abschlussarbeit:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/SEW_Abschlussarbeit_jar</output-path>
     <root id="archive" name="SEW Abschlussarbeit.jar">
       <element id="module-output" name="SEW Abschlussarbeit" />
@@ -12,6 +12,7 @@
       <element id="extracted-dir" path="$USER_HOME$/OneDrive/Dokumente/javafx-sdk-15.0.1/lib/javafx.swing.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$USER_HOME$/OneDrive/Dokumente/javafx-sdk-15.0.1/lib/javafx.controls.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$USER_HOME$/OneDrive/Dokumente/javafx-sdk-15.0.1/lib/javafx.graphics.jar" path-in-jar="/" />
+      <element id="library" level="project" name="lib1" />
     </root>
   </artifact>
 </component>

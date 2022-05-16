@@ -46,7 +46,6 @@ public class ServerHandler extends Thread {
             }
 
             if (input.startsWith("ttt:CLNREQ")) {
-                //Tictactoe.request(user, input.split(":")[2]);
                 System.out.println("challenged to a game of tictactoe by " + input.split(":")[2]);
                 String finalInput = input;
                 Platform.runLater(new Runnable() {
@@ -55,8 +54,6 @@ public class ServerHandler extends Thread {
                         Tictactoe.request(user, finalInput.split(":")[2]);
                     }
                 });
-                //Tictactoe.request(user, input.split(":")[2]);
-                //user.writeToServer("ttt:CLNACC");
                 continue;
             }
 

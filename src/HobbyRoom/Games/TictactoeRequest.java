@@ -24,6 +24,7 @@ public class TictactoeRequest extends Application {
         stage = new Stage();
 
         stage.setResizable(false);
+        stage.setAlwaysOnTop(true);
         stage.setTitle("Tictactoe");
 
         AnchorPane all = new AnchorPane();
@@ -52,7 +53,7 @@ public class TictactoeRequest extends Application {
             finalStage1.close();
         });
 
-        Scene scene = new Scene(all, 280, 120);
+        Scene scene = new Scene(all, 350, 120);
         stage.setScene(scene);
 
         stage.show();
