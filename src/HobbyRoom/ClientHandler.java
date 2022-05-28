@@ -50,6 +50,7 @@ public class ClientHandler extends Thread {
                     // CLNREJ  reject
                     // CLNREQ  request
                     // SET     set value to field
+                    // WIN     tell the winner of the game
 
                     String[] args = input.split(":");
 
@@ -77,6 +78,9 @@ public class ClientHandler extends Thread {
                         Server.tictactoeGames.put(temp, new Integer[3][3]); // create tictactoe object
                     } else if (args[1].equals("CLNREJ")) {
                         Server.tictactoeGames.keySet().stream().filter(x -> x.get(1).equals(this)).findFirst().get().get(0).write("ttt:CLNREJ:\n"); // write reject to the user that initiated the challenge
+                        Server.tictactoeGames.remove(Server.tictactoeGames.keySet().stream().filter(x -> x.get(1).equals(this)).findFirst().get()); // remove the rejected game from the game list
+                    } else if (args[1].equals("SET")) {
+
                     }
                     continue;
                 }
@@ -98,6 +102,7 @@ public class ClientHandler extends Thread {
                     wr.flush();
                 } else {
                     Server.broadCast(this, input);
+                    System.out.println("DAS WIRD BROADCASTET: " + input);
                 }
             }
 

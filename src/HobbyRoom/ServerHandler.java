@@ -36,6 +36,7 @@ public class ServerHandler extends Thread {
         while (running) {
             try {
                 input = br.readLine().replaceAll("\n", "").replaceAll("\r", "");
+                System.out.println("Incoming from Server: " + input);
                 if (awaited.containsKey(input.split(":")[0])) {
                     awaited.put(input.split(":")[0], input);
                     continue;
@@ -59,9 +60,9 @@ public class ServerHandler extends Thread {
                 continue;
             }
 
-            MainPage.output(input);
-
-            System.out.println("Incoming from Server: " + input);
+            if (input.startsWith("msg:") || input.startsWith("sysmsg:")) {
+                MainPage.output(input);
+            }
         }
     }
 
