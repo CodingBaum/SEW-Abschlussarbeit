@@ -3,7 +3,6 @@ package HobbyRoom;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -50,6 +49,7 @@ public class ClientHandler extends Thread {
                     // CLNACC  accept
                     // CLNREJ  reject
                     // CLNREQ  request
+                    // SET     set value to field
 
                     String[] args = input.split(":");
 
@@ -65,21 +65,18 @@ public class ClientHandler extends Thread {
                             players.add(this);
                             players.add(challenged);
 
-                            Server.tictactoeGames.add(players);
-                        }
-
-                        /*if (!Server.checkUser(args[2])) {
-                            write("ttt:CLNREJ:User does not exist");
+                            Server.tictactoeGames.put(players, null);
                         } else {
-                            Server.clients.stream().filter(x -> x.USERNAME.equals(args[2])).findFirst().get().write("ttt:CLNREQ:" + USERNAME);
-                            List<ClientHandler> temp = new ArrayList<>();
-                            temp.add(this);
-                            Server.tictactoeGames.add(temp);
-                        }*/
+                            write("ttt:CLNREJ:User does not exist\n");
+                        }
                     } else if (args[1].equals("CLNACC")) {
-                        Server.tictactoeGames.stream().filter(x -> x.get(1).equals(this)).findFirst().get().get(0).write("ttt:CLNACC\n");
+                        Server.tictactoeGames.keySet().stream().filter(x -> x.get(1).equals(this)).findFirst().get().get(0).write("ttt:CLNACC\n"); // write accept to the user that initiated the challenge
+                        List<ClientHandler> temp = new ArrayList<>();
+                        temp.add(Server.tictactoeGames.keySet().stream().filter(x -> x.get(1).equals(this)).findFirst().get().get(0)); // add the initiator of the challenge
+                        temp.add(this);
+                        Server.tictactoeGames.put(temp, new Integer[3][3]); // create tictactoe object
                     } else if (args[1].equals("CLNREJ")) {
-                        Server.tictactoeGames.stream().filter(x -> x.get(1).equals(this)).findFirst().get().get(0).write("ttt:CLNREJ\n");
+                        Server.tictactoeGames.keySet().stream().filter(x -> x.get(1).equals(this)).findFirst().get().get(0).write("ttt:CLNREJ:\n"); // write reject to the user that initiated the challenge
                     }
                     continue;
                 }

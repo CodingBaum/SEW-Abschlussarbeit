@@ -13,7 +13,7 @@ public class Server {
 
     private static Map<ClientHandler, Integer> stats = new HashMap<>();
 
-    public static List<List<ClientHandler>> tictactoeGames = new ArrayList<>();
+    public static Map<List<ClientHandler>, Integer[][]> tictactoeGames = new HashMap<>();
 
     public static void main(String[] args) {
         try (ServerSocket server = new ServerSocket(42069))

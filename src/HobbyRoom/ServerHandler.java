@@ -2,10 +2,12 @@ package HobbyRoom;
 
 import HobbyRoom.Games.Tictactoe;
 import javafx.application.Platform;
+import javafx.print.Collation;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +19,7 @@ public class ServerHandler extends Thread {
     private Boolean running = true;
 
     // if entry exists some thread is waiting for a server input
-    private final Map<String, String> awaited = new HashMap<>();
+    final Map<String, String> awaited = Collections.synchronizedMap(new HashMap<>());
 
     public ServerHandler(Client user, BufferedWriter wr, BufferedReader br) {
         this.user = user;
