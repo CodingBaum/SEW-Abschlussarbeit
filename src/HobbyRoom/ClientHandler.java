@@ -1,7 +1,5 @@
 package HobbyRoom;
 
-import HobbyRoom.Games.Tictactoe;
-
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -82,8 +80,7 @@ public class ClientHandler extends Thread {
                         Server.tictactoeGames.keySet().stream().filter(x -> x.get(1).equals(this)).findFirst().get().get(0).write("ttt:CLNREJ:\n"); // write reject to the user that initiated the challenge
                         Server.tictactoeGames.remove(Server.tictactoeGames.keySet().stream().filter(x -> x.get(1).equals(this)).findFirst().get()); // remove the rejected game from the game list
                     } else if (args[1].equals("SET")) {
-                        int x = Integer.parseInt(args[2].substring(0,1));
-                        write("ttt:SET:00");
+
                     }
                     continue;
                 }

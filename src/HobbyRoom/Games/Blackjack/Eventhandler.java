@@ -318,7 +318,7 @@ public class Eventhandler {
                 text.setWrapText(true);
 
                 Button ok = new Button();
-                ok.setGraphic(new ImageView(new Image("/blackjack/pictures/checkmark.png", 60, 40, true, true)));
+                ok.setGraphic(new ImageView(new Image("HobbyRoom/Games/Blackjack/pictures/checkmark.png", 60, 40, true, true)));
 
                 ok.setOnAction(event1 -> {
                     stage.close();
