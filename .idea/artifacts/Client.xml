@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="Client">
+    <output-path>$PROJECT_DIR$/out/artifacts/Client</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="HobbyRoom.Client" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="title" value="" />
+        <option name="vendor" value="" />
+        <option name="version" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="SEW_Abschlussarbeit.jar">
+        <element id="module-output" name="SEW Abschlussarbeit" />
+      </element>
+    </root>
+  </artifact>
+</component>

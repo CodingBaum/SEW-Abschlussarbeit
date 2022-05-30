@@ -1,6 +1,7 @@
 package HobbyRoom;
 
 import HobbyRoom.Games.Tictactoe;
+import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -65,7 +66,7 @@ public class MainPage {
                     output("[ERROR] Dieser Befehl existiert nicht!");
                 }
             } else {
-                user.writeToServer(input.getText());
+                user.writeToServer("msg:"+user.getName()+":"+input.getText());
                 output("[PUBLIC] DU: " + input.getText());
             }
 
@@ -110,6 +111,7 @@ public class MainPage {
         Button bj = new Button();
         setPos(bj, width/1.3, 10+(height/3)*2);
         bj.setGraphic(new ImageView(new Image("res/bj.png")));
+        bj.setOnAction(actionEvent -> HobbyRoom.Games.Blackjack.Main.launch());
 
         main.getChildren().addAll(input, output, send, v, bosna, ttt, bj);
 
@@ -122,7 +124,12 @@ public class MainPage {
 
     public static void output(String s) {
         if (output == null) return;
-        //gibt nur ein einfaches /n hinter den text damit nicht alles in einer Zeile ist
-        output.appendText(s + "\n");
+        if (s.startsWith("msg:")) {
+            output.appendText("[PUBLIC] " + s.split(":")[1] + ": " + s.split(":")[2] + "\n");
+        } else if (s.startsWith("sysmsg:")) {
+            output.appendText("[SYSTEM] " + s.split(":")[1] + "\n");
+        } else {
+                output.appendText(s + "\n");
+        }
     }
 }

@@ -2,10 +2,12 @@ package HobbyRoom;
 
 import HobbyRoom.Games.Tictactoe;
 import javafx.application.Platform;
+import javafx.print.Collation;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +19,7 @@ public class ServerHandler extends Thread {
     private Boolean running = true;
 
     // if entry exists some thread is waiting for a server input
-    private final Map<String, String> awaited = new HashMap<>();
+    final Map<String, String> awaited = Collections.synchronizedMap(new HashMap<>());
 
     public ServerHandler(Client user, BufferedWriter wr, BufferedReader br) {
         this.user = user;
@@ -34,6 +36,7 @@ public class ServerHandler extends Thread {
         while (running) {
             try {
                 input = br.readLine().replaceAll("\n", "").replaceAll("\r", "");
+                System.out.println("Incoming from Server: " + input);
                 if (awaited.containsKey(input.split(":")[0])) {
                     awaited.put(input.split(":")[0], input);
                     continue;
@@ -57,9 +60,9 @@ public class ServerHandler extends Thread {
                 continue;
             }
 
-            MainPage.output(input);
-
-            System.out.println("Incoming from Server: " + input);
+            if (input.startsWith("msg:") || input.startsWith("sysmsg:")) {
+                MainPage.output(input);
+            }
         }
     }
 

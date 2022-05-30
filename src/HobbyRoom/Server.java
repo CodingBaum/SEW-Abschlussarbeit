@@ -9,11 +9,11 @@ import java.util.stream.Collectors;
 public class Server {
     public static List<ClientHandler> clients = new LinkedList<>();
     public static String nameValidation = "([a-zA-Z0-9_-]{3,20})|(-+)";
-    public static String privateMsgSyntax = "(" + nameValidation + "):(.*)";
+    public static String privateMsgSyntax = "PRVMSG:(" + nameValidation + "):(.*)";
 
     private static Map<ClientHandler, Integer> stats = new HashMap<>();
 
-    public static List<List<ClientHandler>> tictactoeGames = new ArrayList<>();
+    public static Map<List<ClientHandler>, Integer[][]> tictactoeGames = new HashMap<>();
 
     public static void main(String[] args) {
         try (ServerSocket server = new ServerSocket(42069))
@@ -52,11 +52,7 @@ public class Server {
         }
 
         for (ClientHandler c :ja) {
-            if (sender == null) {
-                c.write(msg + "\n");
-            } else {
-                c.write("[PUBLIC] " + sender.USERNAME + ": " + msg + "\n");
-            }
+            c.write(msg + "\n");
         }
     }
 
@@ -76,7 +72,7 @@ public class Server {
     public static void disconnectUser(ClientHandler client) {
         if (client.USERNAME != null) {
             clients.remove(client);
-            broadCast(null, "[SYSTEM] " + client.USERNAME + " hat den Raum verlassen.\n");
+            broadCast(null, "sysmsg:" + client.USERNAME + " hat den Raum verlassen.\n");
         }
     }
 
@@ -91,7 +87,7 @@ public class Server {
             return false;
         } else {
             client.write("[SYSTEM] Willkommen " + name + "!\n");
-            broadCast(null, "[SYSTEM] " + name + " hat den Raum betreten.\n");
+            broadCast(null, "sysmsg:" + name + " hat den Raum betreten.\n");
             clients.add(client);
             stats.put(client, 0);
             return true;
