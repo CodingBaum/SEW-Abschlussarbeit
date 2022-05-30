@@ -2,14 +2,15 @@ package HobbyRoom.Games;
 
 import HobbyRoom.Client;
 import HobbyRoom.Login;
-import javafx.application.Application;
+import HobbyRoom.Server;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -18,6 +19,19 @@ import static HobbyRoom.Client.setPos;
 
 public class Tictactoe {
     private static TextArea output;
+    private static Button A1 = new Button();
+    private static Button A2 = new Button();
+    private static Button A3 = new Button();
+    private static Button B1 = new Button();
+    private static Button B2 = new Button();
+    private static Button B3 = new Button();
+    private static Button C1 = new Button();
+    private static Button C2 = new Button();
+    private static Button C3 = new Button();
+
+    public static void changeSquare(String square, int change){
+
+    }
 
     public static Stage createStage(Client client) {
         Stage stage = new Stage();
@@ -33,43 +47,37 @@ public class Tictactoe {
         int buttonwidth = 100;
 
 
-        Button A1 = new Button();
+
         A1.setPrefHeight(buttonheight);
         A1.setPrefWidth(buttonwidth);
         setPos(A1, 10, 10);
-        Button A2 = new Button();
+        A1.setOnAction(actionEvent -> {
+            client.getFromServer("ttt", "ttt:SET:00");
+        });
         A2.setPrefHeight(buttonheight);
         A2.setPrefWidth(buttonwidth);
         setPos(A2, buttonwidth + 15, 10);
-        Button A3 = new Button();
         A3.setPrefHeight(buttonheight);
         A3.setPrefWidth(buttonwidth);
         setPos(A3, buttonwidth*2 + 20, 10);
-        Button B1 = new Button();
         B1.setPrefHeight(buttonheight);
         B1.setPrefWidth(buttonwidth);
         setPos(B1, 10, buttonheight + 15);
-        Button B2 = new Button();
         B2.setPrefHeight(buttonheight);
         B2.setPrefWidth(buttonwidth);
         setPos(B2, buttonwidth + 15, buttonheight + 15);
-        Button B3 = new Button();
         B3.setPrefHeight(buttonheight);
         B3.setPrefWidth(buttonwidth);
         setPos(B3, buttonwidth*2 + 20, buttonheight + 15);
-        Button C1 = new Button();
         C1.setPrefHeight(buttonheight);
         C1.setPrefWidth(buttonwidth);
         setPos(C1, 10, buttonheight*2 + 20);
-        Button C2 = new Button();
         C2.setPrefHeight(buttonheight);
         C2.setPrefWidth(buttonwidth);
         setPos(C2, buttonwidth + 15, buttonheight*2 + 20);
-        Button C3 = new Button();
         C3.setPrefHeight(buttonheight);
         C3.setPrefWidth(buttonwidth);
         setPos(C3, buttonwidth*2 + 20, buttonheight*2 + 20);
-        output = new TextArea();
         output.setWrapText(true);
         output.setPrefHeight(1);
         output.setPrefWidth(width-10);
