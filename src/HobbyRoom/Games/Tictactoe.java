@@ -19,7 +19,7 @@ import static HobbyRoom.Client.setPos;
 public class Tictactoe {
     private static TextArea output;
 
-    public static Stage createStage(Client client) {
+    public static void createStage(Client client, boolean first) {
         Stage stage = new Stage();
         stage.setResizable(false);
         stage.setTitle("Tictactoe");
@@ -80,11 +80,16 @@ public class Tictactoe {
         Scene scene = new Scene(grid, width, height);
         stage.setScene(scene);
 
-        return stage;
+        stage.show();
+
+        /*if (!first) {
+            enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+            client.getFromServer("ttt", "");
+        }*/
     }
 
-    public static void launchGame(Client client, String username) {
-        createStage(client).show();
+    public static void launchGame(Client client, String username, boolean first) {
+        createStage(client, first);
     }
 
     public static void launchGame(Client client) {
@@ -113,13 +118,13 @@ public class Tictactoe {
             //waitingStage.close();
             System.out.println(ja);
             if (ja.split(":")[1].equals("CLNACC")) {
-                launchGame(client, input.getText());
+                stage.close();
+                launchGame(client, input.getText(), true);
             }
             if (ja.split(":")[1].equals("CLNREJ")) {
+                stage.close();
                 Login.errorMessage("Deine Herausforderung wurde von " + input.getText() + " abgelehnt!");
             }
-
-            stage.close();
         });
 
         Scene scene = new Scene(all, 280, 120);
@@ -154,5 +159,11 @@ public class Tictactoe {
         stage.setScene(scene);
 
         return stage;
+    }
+
+    public static void enable(boolean disable, Button ... buttons) {
+        for (Button b :buttons) {
+            b.setDisable(disable);
+        }
     }
 }

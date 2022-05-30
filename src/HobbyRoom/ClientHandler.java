@@ -53,7 +53,7 @@ public class ClientHandler extends Thread {
                     // WIN     tell the winner of the game
 
                     String[] args = input.split(":");
-System.out.println("hurensohn");
+
                     switch (args[1]) {
                         case "CLNINI" -> {
                             if (Server.checkUser(args[2])) {

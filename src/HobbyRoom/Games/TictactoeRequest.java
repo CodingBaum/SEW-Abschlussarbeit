@@ -43,7 +43,7 @@ public class TictactoeRequest extends Application {
         Stage finalStage = stage;
         accept.setOnAction(actionEvent -> {
             client.writeToServer("ttt:CLNACC:"+challenger);
-            Tictactoe.launchGame(client, challenger);
+            Tictactoe.launchGame(client, challenger, false);
             finalStage.close();
         });
 
