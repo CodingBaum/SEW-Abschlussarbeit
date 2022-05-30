@@ -113,11 +113,9 @@ public class Tictactoe {
             //waitingStage.close();
             System.out.println(ja);
             if (ja.split(":")[1].equals("CLNACC")) {
-                System.out.println("received challange accept!!!!");
                 launchGame(client, input.getText());
             }
             if (ja.split(":")[1].equals("CLNREJ")) {
-                System.out.println("get fucked noob");
                 Login.errorMessage("Deine Herausforderung wurde von " + input.getText() + " abgelehnt!");
             }
 

@@ -184,4 +184,12 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
+    public static void startGame() {
+        PLAYER.abheben(DECK.karteGeben());
+        PLAYER.abheben(DECK.karteGeben());
+        DEALER.abheben(DECK.karteGeben());
+
+        launch();
+    }
 }

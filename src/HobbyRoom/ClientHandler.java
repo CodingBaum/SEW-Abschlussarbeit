@@ -53,34 +53,44 @@ public class ClientHandler extends Thread {
                     // WIN     tell the winner of the game
 
                     String[] args = input.split(":");
+System.out.println("hurensohn");
+                    switch (args[1]) {
+                        case "CLNINI" -> {
+                            if (Server.checkUser(args[2])) {
+                                ClientHandler challenged = Server.clients.stream().filter(x -> x.USERNAME.equals(args[2])).findFirst().get();
+                                challenged.write("ttt:CLNREQ:" + this.USERNAME + "\n");
+                                System.out.println("request sent to " + args[2]);
 
-                    if (args[1].equals("CLNINI")) {
+                                List<ClientHandler> players = new ArrayList<>();
 
-                        if(Server.checkUser(args[2])) {
-                            ClientHandler challenged = Server.clients.stream().filter(x -> x.USERNAME.equals(args[2])).findFirst().get();
-                            challenged.write("ttt:CLNREQ:"+this.USERNAME + "\n");
-                            System.out.println("request sent to " + args[2]);
+                                players.add(this);
+                                players.add(challenged);
 
-                            List<ClientHandler> players = new ArrayList<>();
-
-                            players.add(this);
-                            players.add(challenged);
-
-                            Server.tictactoeGames.put(players, null);
-                        } else {
-                            write("ttt:CLNREJ:User does not exist\n");
+                                Server.tictactoeGames.put(players, null);
+                            } else {
+                                write("ttt:CLNREJ:User does not exist\n");
+                            }
                         }
-                    } else if (args[1].equals("CLNACC")) {
-                        Server.tictactoeGames.keySet().stream().filter(x -> x.get(1).equals(this)).findFirst().get().get(0).write("ttt:CLNACC\n"); // write accept to the user that initiated the challenge
-                        List<ClientHandler> temp = new ArrayList<>();
-                        temp.add(Server.tictactoeGames.keySet().stream().filter(x -> x.get(1).equals(this)).findFirst().get().get(0)); // add the initiator of the challenge
-                        temp.add(this);
-                        Server.tictactoeGames.put(temp, new Integer[3][3]); // create tictactoe object
-                    } else if (args[1].equals("CLNREJ")) {
-                        Server.tictactoeGames.keySet().stream().filter(x -> x.get(1).equals(this)).findFirst().get().get(0).write("ttt:CLNREJ:\n"); // write reject to the user that initiated the challenge
-                        Server.tictactoeGames.remove(Server.tictactoeGames.keySet().stream().filter(x -> x.get(1).equals(this)).findFirst().get()); // remove the rejected game from the game list
-                    } else if (args[1].equals("SET")) {
 
+                        case "CLNACC" -> {
+                            Server.tictactoeGames.keySet().stream().filter(x -> x.get(1).equals(this)).findFirst().get().get(0).write("ttt:CLNACC\n"); // write accept to the user that initiated the challenge
+
+                            List<ClientHandler> temp = new ArrayList<>();
+                            temp.add(Server.tictactoeGames.keySet().stream().filter(x -> x.get(1).equals(this)).findFirst().get().get(0)); // add the initiator of the challenge
+
+                            temp.add(this);
+                            Server.tictactoeGames.put(temp, new Integer[3][3]); // create tictactoe object
+
+                        }
+                        case "CLNREJ" -> {
+                            Server.tictactoeGames.keySet().stream().filter(x -> x.get(1).equals(this)).findFirst().get().get(0).write("ttt:CLNREJ:\n"); // write reject to the user that initiated the challenge
+
+                            Server.tictactoeGames.remove(Server.tictactoeGames.keySet().stream().filter(x -> x.get(1).equals(this)).findFirst().get()); // remove the rejected game from the game list
+
+                        }
+                        case "SET" -> {
+
+                        }
                     }
                     continue;
                 }
