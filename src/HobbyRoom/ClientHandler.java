@@ -3,6 +3,7 @@ package HobbyRoom;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -80,7 +81,15 @@ public class ClientHandler extends Thread {
                         Server.tictactoeGames.keySet().stream().filter(x -> x.get(1).equals(this)).findFirst().get().get(0).write("ttt:CLNREJ:\n"); // write reject to the user that initiated the challenge
                         Server.tictactoeGames.remove(Server.tictactoeGames.keySet().stream().filter(x -> x.get(1).equals(this)).findFirst().get()); // remove the rejected game from the game list
                     } else if (args[1].equals("SET")) {
+                        List<ClientHandler> players = Server.tictactoeGames.keySet().stream().filter(x -> x.contains(this)).findFirst().get();
 
+                        Integer[][] game = Server.tictactoeGames.get(players);
+
+                        players.remove(this);
+                        players.get(0).write(input+"\n");
+                        players.add(this);
+                        game[Integer.parseInt(args[2].charAt(0)+"")][Integer.parseInt(args[2].charAt(1)+"")] = 1;
+                        Server.tictactoeGames.put(players, game);
                     }
                     continue;
                 }

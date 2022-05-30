@@ -18,7 +18,7 @@ import java.awt.*;
 import static HobbyRoom.Client.setPos;
 
 public class Tictactoe {
-    private static TextArea output;
+    private static TextArea output = new TextArea();
     private static Button A1 = new Button();
     private static Button A2 = new Button();
     private static Button A3 = new Button();
@@ -52,32 +52,77 @@ public class Tictactoe {
         A1.setPrefWidth(buttonwidth);
         setPos(A1, 10, 10);
         A1.setOnAction(actionEvent -> {
+            enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+            Stage s = waiting();
+            s.show();
             client.getFromServer("ttt", "ttt:SET:00");
+            s.close();
+            enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
         });
         A2.setPrefHeight(buttonheight);
         A2.setPrefWidth(buttonwidth);
         setPos(A2, buttonwidth + 15, 10);
+        A2.setOnAction(actionEvent -> {
+            enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+            client.getFromServer("ttt", "ttt:SET:01");
+            enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+        });
         A3.setPrefHeight(buttonheight);
         A3.setPrefWidth(buttonwidth);
         setPos(A3, buttonwidth*2 + 20, 10);
+        A3.setOnAction(actionEvent -> {
+            enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+            client.getFromServer("ttt", "ttt:SET:02");
+            enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+        });
         B1.setPrefHeight(buttonheight);
         B1.setPrefWidth(buttonwidth);
         setPos(B1, 10, buttonheight + 15);
+        B1.setOnAction(actionEvent -> {
+            enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+            client.getFromServer("ttt", "ttt:SET:10");
+            enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+        });
         B2.setPrefHeight(buttonheight);
         B2.setPrefWidth(buttonwidth);
         setPos(B2, buttonwidth + 15, buttonheight + 15);
+        B2.setOnAction(actionEvent -> {
+            enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+            client.getFromServer("ttt", "ttt:SET:11");
+            enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+        });
         B3.setPrefHeight(buttonheight);
         B3.setPrefWidth(buttonwidth);
         setPos(B3, buttonwidth*2 + 20, buttonheight + 15);
+        B3.setOnAction(actionEvent -> {
+            enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+            client.getFromServer("ttt", "ttt:SET:12");
+            enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+        });
         C1.setPrefHeight(buttonheight);
         C1.setPrefWidth(buttonwidth);
         setPos(C1, 10, buttonheight*2 + 20);
+        C1.setOnAction(actionEvent -> {
+            enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+            client.getFromServer("ttt", "ttt:SET:20");
+            enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+        });
         C2.setPrefHeight(buttonheight);
         C2.setPrefWidth(buttonwidth);
         setPos(C2, buttonwidth + 15, buttonheight*2 + 20);
+        C2.setOnAction(actionEvent -> {
+            enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+            client.getFromServer("ttt", "ttt:SET:21");
+            enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+        });
         C3.setPrefHeight(buttonheight);
         C3.setPrefWidth(buttonwidth);
         setPos(C3, buttonwidth*2 + 20, buttonheight*2 + 20);
+        C3.setOnAction(actionEvent -> {
+            enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+            client.getFromServer("ttt", "ttt:SET:22");
+            enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+        });
         output.setWrapText(true);
         output.setPrefHeight(1);
         output.setPrefWidth(width-10);
@@ -154,7 +199,7 @@ public class Tictactoe {
         Stage stage = new Stage();
         stage.setResizable(false);
         stage.setAlwaysOnTop(true);
-        stage.setTitle("Tictactoe");
+        stage.setTitle("Warte auf Gegner");
 
         AnchorPane all = new AnchorPane();
 
