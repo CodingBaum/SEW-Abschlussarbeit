@@ -1,4 +1,4 @@
-package HobbyRoom.Games;
+package HobbyRoom.Games.TicTacToe;
 
 import HobbyRoom.Client;
 import javafx.application.Application;

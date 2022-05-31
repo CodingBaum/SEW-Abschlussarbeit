@@ -1,8 +1,6 @@
 package HobbyRoom;
 
-import HobbyRoom.Games.Tictactoe;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;

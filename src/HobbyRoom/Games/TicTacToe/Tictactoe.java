@@ -1,8 +1,7 @@
-package HobbyRoom.Games;
+package HobbyRoom.Games.TicTacToe;
 
 import HobbyRoom.Client;
 import HobbyRoom.Login;
-import HobbyRoom.Server;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -45,7 +44,7 @@ public class Tictactoe {
         }
 
         current.setDisable(true);
-        current.setGraphic(new ImageView(new Image("res/minesweeper.png")));
+        current.setGraphic(new ImageView(new Image("res/ttt2.png")));
     }
 
     public static void createStage(Client client, boolean first) {
@@ -68,11 +67,8 @@ public class Tictactoe {
         setPos(A1, 10, 10);
         A1.setOnAction(actionEvent -> {
             enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
-            Stage s = waiting();
-            s.show();
             String returnValue = client.getFromServer("ttt", "ttt:SET:00");
             setField(returnValue.split(":")[2]);
-            s.close();
             enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
         });
         A2.setPrefHeight(buttonheight);

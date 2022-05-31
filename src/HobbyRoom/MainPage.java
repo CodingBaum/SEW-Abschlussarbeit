@@ -1,8 +1,6 @@
 package HobbyRoom;
 
-import HobbyRoom.Games.Tictactoe;
-import javafx.application.Application;
-import javafx.application.Platform;
+import HobbyRoom.Games.TicTacToe.Tictactoe;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;

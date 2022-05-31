@@ -1,8 +1,7 @@
 package HobbyRoom;
 
-import HobbyRoom.Games.Tictactoe;
+import HobbyRoom.Games.TicTacToe.Tictactoe;
 import javafx.application.Platform;
-import javafx.print.Collation;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
