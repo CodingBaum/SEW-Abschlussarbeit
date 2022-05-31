@@ -29,8 +29,23 @@ public class Tictactoe {
     private static Button C2 = new Button();
     private static Button C3 = new Button();
 
-    public static void changeSquare(String square, int change){
+    public static void setField(String input){
+        Button current = new Button();
 
+        switch (input) {
+            case "00" -> current = A1;
+            case "01" -> current = A2;
+            case "02" -> current = A3;
+            case "10" -> current = B1;
+            case "11" -> current = B2;
+            case "12" -> current = B3;
+            case "20" -> current = C1;
+            case "21" -> current = C2;
+            case "22" -> current = C3;
+        }
+
+        current.setDisable(true);
+        current.setGraphic(new ImageView(new Image("res/minesweeper.png")));
     }
 
     public static void createStage(Client client, boolean first) {
@@ -55,7 +70,8 @@ public class Tictactoe {
             enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
             Stage s = waiting();
             s.show();
-            client.getFromServer("ttt", "ttt:SET:00");
+            String returnValue = client.getFromServer("ttt", "ttt:SET:00");
+            setField(returnValue.split(":")[2]);
             s.close();
             enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
         });
@@ -64,7 +80,8 @@ public class Tictactoe {
         setPos(A2, buttonwidth + 15, 10);
         A2.setOnAction(actionEvent -> {
             enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
-            client.getFromServer("ttt", "ttt:SET:01");
+            String returnValue = client.getFromServer("ttt", "ttt:SET:01");
+            setField(returnValue.split(":")[2]);
             enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
         });
         A3.setPrefHeight(buttonheight);
@@ -72,7 +89,8 @@ public class Tictactoe {
         setPos(A3, buttonwidth*2 + 20, 10);
         A3.setOnAction(actionEvent -> {
             enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
-            client.getFromServer("ttt", "ttt:SET:02");
+            String returnValue = client.getFromServer("ttt", "ttt:SET:02");
+            setField(returnValue.split(":")[2]);
             enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
         });
         B1.setPrefHeight(buttonheight);
@@ -80,7 +98,8 @@ public class Tictactoe {
         setPos(B1, 10, buttonheight + 15);
         B1.setOnAction(actionEvent -> {
             enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
-            client.getFromServer("ttt", "ttt:SET:10");
+            String returnValue = client.getFromServer("ttt", "ttt:SET:10");
+            setField(returnValue.split(":")[2]);
             enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
         });
         B2.setPrefHeight(buttonheight);
@@ -88,7 +107,8 @@ public class Tictactoe {
         setPos(B2, buttonwidth + 15, buttonheight + 15);
         B2.setOnAction(actionEvent -> {
             enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
-            client.getFromServer("ttt", "ttt:SET:11");
+            String returnValue = client.getFromServer("ttt", "ttt:SET:11");
+            setField(returnValue.split(":")[2]);
             enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
         });
         B3.setPrefHeight(buttonheight);
@@ -96,7 +116,8 @@ public class Tictactoe {
         setPos(B3, buttonwidth*2 + 20, buttonheight + 15);
         B3.setOnAction(actionEvent -> {
             enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
-            client.getFromServer("ttt", "ttt:SET:12");
+            String returnValue = client.getFromServer("ttt", "ttt:SET:12");
+            setField(returnValue.split(":")[2]);
             enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
         });
         C1.setPrefHeight(buttonheight);
@@ -104,7 +125,8 @@ public class Tictactoe {
         setPos(C1, 10, buttonheight*2 + 20);
         C1.setOnAction(actionEvent -> {
             enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
-            client.getFromServer("ttt", "ttt:SET:20");
+            String returnValue = client.getFromServer("ttt", "ttt:SET:20");
+            setField(returnValue.split(":")[2]);
             enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
         });
         C2.setPrefHeight(buttonheight);
@@ -112,7 +134,8 @@ public class Tictactoe {
         setPos(C2, buttonwidth + 15, buttonheight*2 + 20);
         C2.setOnAction(actionEvent -> {
             enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
-            client.getFromServer("ttt", "ttt:SET:21");
+            String returnValue = client.getFromServer("ttt", "ttt:SET:21");
+            setField(returnValue.split(":")[2]);
             enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
         });
         C3.setPrefHeight(buttonheight);
@@ -120,7 +143,8 @@ public class Tictactoe {
         setPos(C3, buttonwidth*2 + 20, buttonheight*2 + 20);
         C3.setOnAction(actionEvent -> {
             enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
-            client.getFromServer("ttt", "ttt:SET:22");
+            String returnValue = client.getFromServer("ttt", "ttt:SET:22");
+            setField(returnValue.split(":")[2]);
             enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
         });
         output.setWrapText(true);
