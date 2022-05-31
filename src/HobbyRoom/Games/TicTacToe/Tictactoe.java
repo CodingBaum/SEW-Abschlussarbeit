@@ -44,7 +44,7 @@ public class Tictactoe {
         }
 
         current.setDisable(true);
-        current.setGraphic(new ImageView(new Image("res/ttt2.png")));
+        current.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt2.png")));
     }
 
     public static void createStage(Client client, boolean first) {
@@ -66,82 +66,82 @@ public class Tictactoe {
         A1.setPrefWidth(buttonwidth);
         setPos(A1, 10, 10);
         A1.setOnAction(actionEvent -> {
-            enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+            A1.setDisable(true);
+            A1.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png")));
             String returnValue = client.getFromServer("ttt", "ttt:SET:00");
             setField(returnValue.split(":")[2]);
-            enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
         });
         A2.setPrefHeight(buttonheight);
         A2.setPrefWidth(buttonwidth);
         setPos(A2, buttonwidth + 15, 10);
         A2.setOnAction(actionEvent -> {
-            enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+            A2.setDisable(true);
+            A2.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png")));
             String returnValue = client.getFromServer("ttt", "ttt:SET:01");
             setField(returnValue.split(":")[2]);
-            enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
         });
         A3.setPrefHeight(buttonheight);
         A3.setPrefWidth(buttonwidth);
         setPos(A3, buttonwidth*2 + 20, 10);
         A3.setOnAction(actionEvent -> {
-            enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+            A3.setDisable(true);
+            A3.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png")));
             String returnValue = client.getFromServer("ttt", "ttt:SET:02");
             setField(returnValue.split(":")[2]);
-            enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
         });
         B1.setPrefHeight(buttonheight);
         B1.setPrefWidth(buttonwidth);
         setPos(B1, 10, buttonheight + 15);
         B1.setOnAction(actionEvent -> {
-            enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+            B1.setDisable(true);
+            B1.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png")));
             String returnValue = client.getFromServer("ttt", "ttt:SET:10");
             setField(returnValue.split(":")[2]);
-            enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
         });
         B2.setPrefHeight(buttonheight);
         B2.setPrefWidth(buttonwidth);
         setPos(B2, buttonwidth + 15, buttonheight + 15);
         B2.setOnAction(actionEvent -> {
-            enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+            B2.setDisable(true);
+            B2.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png")));
             String returnValue = client.getFromServer("ttt", "ttt:SET:11");
             setField(returnValue.split(":")[2]);
-            enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
         });
         B3.setPrefHeight(buttonheight);
         B3.setPrefWidth(buttonwidth);
         setPos(B3, buttonwidth*2 + 20, buttonheight + 15);
         B3.setOnAction(actionEvent -> {
-            enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+            B3.setDisable(true);
+            B3.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png")));
             String returnValue = client.getFromServer("ttt", "ttt:SET:12");
             setField(returnValue.split(":")[2]);
-            enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
         });
         C1.setPrefHeight(buttonheight);
         C1.setPrefWidth(buttonwidth);
         setPos(C1, 10, buttonheight*2 + 20);
         C1.setOnAction(actionEvent -> {
-            enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+            C1.setDisable(true);
+            C1.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png")));
             String returnValue = client.getFromServer("ttt", "ttt:SET:20");
             setField(returnValue.split(":")[2]);
-            enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
         });
         C2.setPrefHeight(buttonheight);
         C2.setPrefWidth(buttonwidth);
         setPos(C2, buttonwidth + 15, buttonheight*2 + 20);
         C2.setOnAction(actionEvent -> {
-            enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+            C2.setDisable(true);
+            C2.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png")));
             String returnValue = client.getFromServer("ttt", "ttt:SET:21");
             setField(returnValue.split(":")[2]);
-            enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
         });
         C3.setPrefHeight(buttonheight);
         C3.setPrefWidth(buttonwidth);
         setPos(C3, buttonwidth*2 + 20, buttonheight*2 + 20);
         C3.setOnAction(actionEvent -> {
-            enable(true, A1, A2, A3, B1, B2, B3, C1, C2, C3);
+            C3.setDisable(true);
+            C3.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png")));
             String returnValue = client.getFromServer("ttt", "ttt:SET:22");
             setField(returnValue.split(":")[2]);
-            enable(false, A1, A2, A3, B1, B2, B3, C1, C2, C3);
         });
         output.setWrapText(true);
         output.setPrefHeight(1);
