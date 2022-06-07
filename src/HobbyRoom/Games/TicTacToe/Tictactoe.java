@@ -23,15 +23,19 @@ public class Tictactoe {
     private static int buttonheight = 100;
     private static int buttonwidth = 100;
 
-    {
-
-    }
-
     public static void setField(String input){
         Button current = obama[Integer.parseInt(input.charAt(0)+"")][Integer.parseInt(input.charAt(1)+"")];
 
         current.setDisable(true);
         current.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt2.png", 80, 80, true, true)));
+
+        for (Button[] buttons : obama) {
+            for (Button button : buttons) {
+                if (button.getGraphic() == null) {
+                    button.setDisable(false);
+                }
+            }
+        }
     }
 
     public static void createStage(Client client, boolean first) {
@@ -54,7 +58,13 @@ public class Tictactoe {
                 int finalJ = j;
                 obama[i][j].setOnAction(actionEvent -> {
                     output.setText("Gegner am Zug");
-                    obama[finalI][finalJ].setDisable(true);
+                    for (Button[] buttons : obama) {
+                        for (Button button : buttons) {
+                            if (button.getGraphic() == null) {
+                                button.setDisable(true);
+                            }
+                        }
+                    }
                     obama[finalI][finalJ].setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png", buttonwidth*0.8, buttonheight*0.8, true, true)));
                     new TictactoeServerInputHandler("ttt:SET:"+ finalI + finalJ, client).start();
                     output.setText("Du bist am Zug");
@@ -85,10 +95,10 @@ public class Tictactoe {
 
         stage.show();
 
-        /*if (!first) {
-            enable(true, A1, A2, obama[0,[2 B1, B2, B3, C1, C2, C3);
-            client.getFromServer("ttt", "");
-        }*/
+        if (!first) {
+            enable(true, obama[0][0], obama[0][1], obama[0][2], obama[1][0], obama[1][1], obama[1][2], obama[2][0], obama[2][1], obama[2][2]);
+            new TictactoeServerInputHandler("", client).start();
+        }
     }
 
     public static void launchGame(Client client, String username, boolean first) {
