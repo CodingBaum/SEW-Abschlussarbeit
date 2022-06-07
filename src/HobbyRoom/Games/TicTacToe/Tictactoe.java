@@ -44,7 +44,7 @@ public class Tictactoe {
         }
 
         current.setDisable(true);
-        current.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt2.png")));
+        current.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt2.png", 80, 80, true, true)));
     }
 
     public static void createStage(Client client, boolean first) {
@@ -67,7 +67,7 @@ public class Tictactoe {
         setPos(A1, 10, 10);
         A1.setOnAction(actionEvent -> {
             A1.setDisable(true);
-            A1.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png")));
+            A1.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png", buttonwidth*0.8, buttonheight*0.8, true, true)));
             String returnValue = client.getFromServer("ttt", "ttt:SET:00");
             setField(returnValue.split(":")[2]);
         });
@@ -76,7 +76,7 @@ public class Tictactoe {
         setPos(A2, buttonwidth + 15, 10);
         A2.setOnAction(actionEvent -> {
             A2.setDisable(true);
-            A2.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png")));
+            A2.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png", buttonwidth*0.8, buttonheight*0.8, true, true)));
             String returnValue = client.getFromServer("ttt", "ttt:SET:01");
             setField(returnValue.split(":")[2]);
         });
@@ -85,7 +85,7 @@ public class Tictactoe {
         setPos(A3, buttonwidth*2 + 20, 10);
         A3.setOnAction(actionEvent -> {
             A3.setDisable(true);
-            A3.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png")));
+            A3.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png", buttonwidth*0.8, buttonheight*0.8, true, true)));
             String returnValue = client.getFromServer("ttt", "ttt:SET:02");
             setField(returnValue.split(":")[2]);
         });
@@ -94,7 +94,7 @@ public class Tictactoe {
         setPos(B1, 10, buttonheight + 15);
         B1.setOnAction(actionEvent -> {
             B1.setDisable(true);
-            B1.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png")));
+            B1.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png", buttonwidth*0.8, buttonheight*0.8, true, true)));
             String returnValue = client.getFromServer("ttt", "ttt:SET:10");
             setField(returnValue.split(":")[2]);
         });
@@ -103,7 +103,7 @@ public class Tictactoe {
         setPos(B2, buttonwidth + 15, buttonheight + 15);
         B2.setOnAction(actionEvent -> {
             B2.setDisable(true);
-            B2.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png")));
+            B2.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png", buttonwidth*0.8, buttonheight*0.8, true, true)));
             String returnValue = client.getFromServer("ttt", "ttt:SET:11");
             setField(returnValue.split(":")[2]);
         });
@@ -112,7 +112,7 @@ public class Tictactoe {
         setPos(B3, buttonwidth*2 + 20, buttonheight + 15);
         B3.setOnAction(actionEvent -> {
             B3.setDisable(true);
-            B3.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png")));
+            B3.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png", buttonwidth*0.8, buttonheight*0.8, true, true)));
             String returnValue = client.getFromServer("ttt", "ttt:SET:12");
             setField(returnValue.split(":")[2]);
         });
@@ -121,7 +121,7 @@ public class Tictactoe {
         setPos(C1, 10, buttonheight*2 + 20);
         C1.setOnAction(actionEvent -> {
             C1.setDisable(true);
-            C1.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png")));
+            C1.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png", buttonwidth*0.8, buttonheight*0.8, true, true)));
             String returnValue = client.getFromServer("ttt", "ttt:SET:20");
             setField(returnValue.split(":")[2]);
         });
@@ -130,7 +130,7 @@ public class Tictactoe {
         setPos(C2, buttonwidth + 15, buttonheight*2 + 20);
         C2.setOnAction(actionEvent -> {
             C2.setDisable(true);
-            C2.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png")));
+            C2.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png", buttonwidth*0.8, buttonheight*0.8, true, true)));
             String returnValue = client.getFromServer("ttt", "ttt:SET:21");
             setField(returnValue.split(":")[2]);
         });
@@ -139,7 +139,7 @@ public class Tictactoe {
         setPos(C3, buttonwidth*2 + 20, buttonheight*2 + 20);
         C3.setOnAction(actionEvent -> {
             C3.setDisable(true);
-            C3.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png")));
+            C3.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png", buttonwidth*0.8, buttonheight*0.8, true, true)));
             String returnValue = client.getFromServer("ttt", "ttt:SET:22");
             setField(returnValue.split(":")[2]);
         });
