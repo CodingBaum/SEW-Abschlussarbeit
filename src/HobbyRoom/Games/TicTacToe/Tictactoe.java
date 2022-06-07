@@ -2,6 +2,7 @@ package HobbyRoom.Games.TicTacToe;
 
 import HobbyRoom.Client;
 import HobbyRoom.Login;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -69,8 +70,9 @@ public class Tictactoe {
             output.setText("Gegner am Zug");
             A1.setDisable(true);
             A1.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png", buttonwidth*0.8, buttonheight*0.8, true, true)));
-            String returnValue = client.getFromServer("ttt", "ttt:SET:00");
-            setField(returnValue.split(":")[2]);
+            new TictactoeServerInputHandler("ttt:SET:00", client).start();
+            /*String returnValue = client.getFromServer("ttt", "ttt:SET:00");
+            setField(returnValue.split(":")[2]);*/
             output.setText("Du bist am Zug");
         });
         A2.setPrefHeight(buttonheight);
