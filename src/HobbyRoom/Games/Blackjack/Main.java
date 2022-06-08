@@ -1,6 +1,5 @@
 package HobbyRoom.Games.Blackjack;
 
-import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -9,22 +8,14 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class Main {
     public static User DEALER = new User(1000);
     public static User PLAYER = new User(1000);
     public static Deck DECK = new Deck();
     public static String savePath = "src/HobbyRoom/Games/Blackjack/save.txt";
 
-    public static void main(String[] args) {
-        PLAYER.abheben(DECK.karteGeben());
-        PLAYER.abheben(DECK.karteGeben());
-        DEALER.abheben(DECK.karteGeben());
-
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage stage) {
+    public static Stage createGame() {
+        Stage stage = new Stage();
         stage.setTitle("Blackjack");
         stage.setHeight(590);
         stage.setWidth(700);
@@ -182,7 +173,8 @@ public class Main extends Application {
 
         Scene scene = new Scene(borderPane);
         stage.setScene(scene);
-        stage.show();
+
+        return stage;
     }
 
     public static void startGame() {
@@ -190,6 +182,6 @@ public class Main extends Application {
         PLAYER.abheben(DECK.karteGeben());
         DEALER.abheben(DECK.karteGeben());
 
-        launch();
+        createGame().show();
     }
 }

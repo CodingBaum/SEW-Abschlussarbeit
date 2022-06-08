@@ -1,6 +1,7 @@
 package HobbyRoom;
 
 import HobbyRoom.Games.TicTacToe.Tictactoe;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -111,7 +112,11 @@ public class MainPage {
         Button bj = new Button();
         setPos(bj, width/1.3, 10+(height/3)*2);
         bj.setGraphic(new ImageView(new Image("res/bj.png")));
-        bj.setOnAction(actionEvent -> launch());
+        bj.setOnAction(actionEvent -> {
+            Platform.runLater(() -> {
+                HobbyRoom.Games.Blackjack.Main.startGame();
+            });
+        });
 
         main.getChildren().addAll(input, output, send, v, bosna, ttt, bj);
 
