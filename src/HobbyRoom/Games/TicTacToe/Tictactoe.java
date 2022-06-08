@@ -127,9 +127,12 @@ public class Tictactoe {
         accept.setOnAction(actionEvent -> {
             //Stage waitingStage = waiting();
             //waitingStage.show();
+            if (input.getText().equals(client.getName())) {
+                Login.errorMessage("Du kannst dich nicht selbst herausfordern").show();
+                return;
+            }
             String ja = client.getFromServer("ttt", "ttt:CLNINI:"+input.getText());
             //waitingStage.close();
-            System.out.println(ja);
             if (ja.split(":")[1].equals("CLNACC")) {
                 stage.close();
                 launchGame(client, input.getText(), true);
