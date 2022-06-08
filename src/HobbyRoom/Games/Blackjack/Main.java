@@ -128,7 +128,9 @@ public class Main {
         reset.setDisable(true);
         insurance.setDisable(true);
 
-        grid.setStyle("-fx-background-image: url('HobbyRoom/Games/Blackjack/pictures/background.jpg'); -fx-background-size: cover; -fx-background-position: center");
+        String url = "HobbyRoom/Games/Blackjack/pictures/background.jpg";
+
+        grid.setStyle("-fx-background-image: url(" + url + "); -fx-background-size: cover; -fx-background-position: center");
 
         //---------------------------------------------------MENU----------------------------------------------------------------
         MenuBar menuBar = new MenuBar();
