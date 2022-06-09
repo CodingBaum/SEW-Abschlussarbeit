@@ -97,7 +97,7 @@ public class Client extends Application {
     }
 
     public void disconnect() {
-        writeToServer("quit\n");
+        writeToServer("CMD:quit\n");
         System.exit(0);
     }
 

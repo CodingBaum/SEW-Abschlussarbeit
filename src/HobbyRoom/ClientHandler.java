@@ -78,7 +78,7 @@ public class ClientHandler extends Thread {
                         temp.add(this);
                         Server.tictactoeGames.put(temp, new Integer[3][3]); // create tictactoe object
                     } else if (args[1].equals("CLNREJ")) {
-                        Server.tictactoeGames.keySet().stream().filter(x -> x.get(1).equals(this)).findFirst().get().get(0).write("ttt:CLNREJ:\n"); // write reject to the user that initiated the challenge
+                        Server.tictactoeGames.keySet().stream().filter(x -> x.get(1).equals(this)).findFirst().get().get(0).write("ttt:CLNREJ\n"); // write reject to the user that initiated the challenge
                         Server.tictactoeGames.remove(Server.tictactoeGames.keySet().stream().filter(x -> x.get(1).equals(this)).findFirst().get()); // remove the rejected game from the game list
                     } else if (args[1].equals("SET")) {
                         List<ClientHandler> players = Server.tictactoeGames.keySet().stream().filter(x -> x.contains(this)).findFirst().get();
@@ -94,21 +94,23 @@ public class ClientHandler extends Thread {
                     continue;
                 }
 
-                if (input.equals("list")) {
-                    wr.write(Server.getAllUsers() + "\n");
-                    wr.flush();
-                } else if (input.equals("quit")) {
-                    wr.close();
-                    br.close();
-                    break;
+                if (input.startsWith("CMD")) {
+                    if (input.split(":")[1].startsWith("list")) {
+                        wr.write("LIST:"+Server.getAllUsers() + "\n");
+                        wr.flush();
+                    } else if (input.split(":")[1].startsWith("quit")) {
+                        wr.close();
+                        br.close();
+                        break;
+                    } else if (input.equals("stat")) {
+                        wr.write(Server.printStats() + "\n");
+                        wr.flush();
+                    }
                 } else if (input.matches(Server.privateMsgSyntax)) {
                     Pattern pattern = Pattern.compile(Server.privateMsgSyntax);
                     String target = pattern.matcher(input).replaceFirst(x -> x.group(1));
                     String msg = pattern.matcher(input).replaceFirst(x -> x.group(2));
                     Server.sendMessage(this, target, msg);
-                } else if (input.equals("stat")) {
-                    wr.write(Server.printStats() + "\n");
-                    wr.flush();
                 } else {
                     Server.broadCast(this, input);
                     System.out.println("DAS WIRD BROADCASTET: " + input);

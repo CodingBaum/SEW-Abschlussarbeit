@@ -138,8 +138,12 @@ public class Tictactoe {
                 launchGame(client, input.getText(), true);
             }
             if (ja.split(":")[1].equals("CLNREJ")) {
-                stage.close();
-                Login.errorMessage("Deine Herausforderung wurde von " + input.getText() + " abgelehnt!");
+                if (ja.split(":").length == 3) {
+                    Login.errorMessage("Dieser Benutzer existiert nicht!").show();
+                } else {
+                    stage.close();
+                    Login.errorMessage("Deine Herausforderung wurde von " + input.getText() + " abgelehnt!").show();
+                }
             }
         });
 

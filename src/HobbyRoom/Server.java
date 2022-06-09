@@ -41,7 +41,7 @@ public class Server {
             }
         }
 
-        return "\nCurrent users: \n" + String.join("\n", erg) + "\n";
+        return "{" + String.join(";", erg) + "}" + "\n";
     }
 
     public static void broadCast(ClientHandler sender, String msg) {

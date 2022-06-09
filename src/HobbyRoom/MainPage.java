@@ -123,19 +123,48 @@ public class MainPage {
         main.getChildren().addAll(input, output, send, v, bosna, ttt, bj);
 
         MenuBar menuBar = new MenuBar();
-        Menu controlMenu = new Menu("Settings");
-        Menu saveMenu = new Menu("Control");
-        menuBar.getMenus().addAll(controlMenu, saveMenu);
+        Menu verwalten = new Menu("Verwalten");
+        Menu info = new Menu("Info");
+        menuBar.getMenus().addAll(verwalten, info);
 
-        MenuItem loadBtn = new MenuItem("Exit");
-        loadBtn.setOnAction(event -> {
-            Client.commands.get("quit").apply(null);
-        });
-        MenuItem saveBtn = new MenuItem("nein!");
-        saveBtn.setOnAction(event -> {
+        MenuItem exit = new MenuItem("Server verlassen");
+        exit.setOnAction(event -> Client.commands.get("quit").apply(null));
 
+        MenuItem joinRoom = new MenuItem("Raum beitreten");
+        MenuItem createRoom = new MenuItem("Raum erstellen");
+        MenuItem leaveRoom = new MenuItem("Raum verlassen");
+        verwalten.getItems().addAll(joinRoom, createRoom, leaveRoom, exit);
+
+        MenuItem listUsers = new MenuItem("Benutzer anzeigen");
+        listUsers.setOnAction(event -> {
+            Stage newStage = new Stage();
+            newStage.setResizable(false);
+            newStage.setTitle("Benutzer:");
+            newStage.setWidth(400);
+            newStage.setHeight(300);
+
+            AnchorPane all = new AnchorPane();
+
+            String users = user.getFromServer("LIST", "CMD:list").split(":")[1].substring(1);
+            users = users.substring(0, users.length()-1);
+
+            users = users.replaceAll(";", "\n");
+
+            TextArea list = new TextArea(users);
+            list.setPrefHeight(newStage.getHeight());
+            list.setPrefWidth(newStage.getWidth());
+
+            setPos(list, -2, -2);
+
+            all.getChildren().addAll(list);
+
+            Scene scene = new Scene(all, 400, 300);
+            newStage.setScene(scene);
+
+            newStage.show();
         });
-        controlMenu.getItems().addAll(loadBtn, saveBtn);
+
+        info.getItems().addAll(listUsers);
 
         BorderPane borderPane = new BorderPane();
         borderPane.setTop(menuBar);
