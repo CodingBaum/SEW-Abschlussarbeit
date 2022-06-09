@@ -12,16 +12,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.awt.*;
-
 import static HobbyRoom.Client.setPos;
 
 public class Tictactoe {
-    private static TextArea output = new TextArea();
-    private static Button[][] obama = new Button[3][3];
+    private static final TextArea output = new TextArea();
+    private static final Button[][] obama = new Button[3][3];
 
-    private static int buttonheight = 100;
-    private static int buttonwidth = 100;
+    private static final int buttonheight = 100;
+    private static final int buttonwidth = 100;
 
     public static void setField(String input){
         Button current = obama[Integer.parseInt(input.charAt(0)+"")][Integer.parseInt(input.charAt(1)+"")];
@@ -45,7 +43,6 @@ public class Tictactoe {
 
 
         AnchorPane grid = new AnchorPane();
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double height = 350;
         double width = 350;
 

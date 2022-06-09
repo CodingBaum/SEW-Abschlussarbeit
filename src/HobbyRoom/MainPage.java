@@ -114,11 +114,9 @@ public class MainPage {
         Button bj = new Button();
         setPos(bj, 615, 150);
         bj.setGraphic(new ImageView(new Image("res/bj.png", 50, 50, true, true)));
-        bj.setOnAction(actionEvent -> {
-            Platform.runLater(() -> {
-                HobbyRoom.Games.Blackjack.Main.startGame();
-            });
-        });
+        bj.setOnAction(actionEvent -> Platform.runLater(() -> {
+            HobbyRoom.Games.Blackjack.Main.startGame();
+        }));
 
         main.getChildren().addAll(input, output, send, v, bosna, ttt, bj);
 

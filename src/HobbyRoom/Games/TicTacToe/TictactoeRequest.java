@@ -11,8 +11,8 @@ import javafx.stage.Stage;
 import static HobbyRoom.Client.setPos;
 
 public class TictactoeRequest extends Application {
-    private Client client;
-    private String challenger;
+    private final Client client;
+    private final String challenger;
 
     public TictactoeRequest(Client client, String challenger) {
         this.client = client;

@@ -11,7 +11,7 @@ public class Server {
     public static String nameValidation = "([a-zA-Z0-9_-]{3,20})|(-+)";
     public static String privateMsgSyntax = "PRVMSG:(" + nameValidation + "):(.*)";
 
-    private static Map<ClientHandler, Integer> stats = new HashMap<>();
+    private static final Map<ClientHandler, Integer> stats = new HashMap<>();
 
     public static Map<List<ClientHandler>, Integer[][]> tictactoeGames = new HashMap<>();
 

@@ -6,8 +6,8 @@ import javafx.application.Platform;
 public class TictactoeServerInputHandler extends Thread {
     private String prefix = "ttt";
 
-    private String msg;
-    private Client client;
+    private final String msg;
+    private final Client client;
 
     public TictactoeServerInputHandler(String msg, Client client) {
         this.msg = msg;
