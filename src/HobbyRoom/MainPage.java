@@ -4,6 +4,13 @@ import HobbyRoom.Games.TicTacToe.Tictactoe;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -11,8 +18,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.*;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
 import java.util.Arrays;
 
 import static HobbyRoom.Client.setPos;
@@ -130,6 +139,53 @@ public class MainPage {
 
         MenuItem joinRoom = new MenuItem("Raum beitreten");
         MenuItem createRoom = new MenuItem("Raum erstellen");
+        createRoom.setOnAction(event -> {
+            Stage newStage = new Stage();
+
+            newStage.setResizable(false);
+            newStage.setTitle("Hobby Room");
+            AnchorPane all = new AnchorPane();
+
+            Label title = new Label("");
+            setPos(title, 150, 20);
+
+            TextField roomName = new TextField();
+            setPos(roomName, 90, 100);
+            roomName.setPromptText("Raumname");
+
+            TextField password = new TextField();
+            setPos(password, 292, 100);
+            password.setPromptText("Passwort");
+
+            Button checkbox = new Button("   ");
+            checkbox.setPrefWidth(28);
+            checkbox.setOnAction(event1 -> {
+                if (checkbox.getText().equals("✓")) {
+                    checkbox.setText("   ");
+                    password.setDisable(true);
+                } else {
+                    checkbox.setText("✓");
+                    password.setDisable(false);
+                }
+
+            });
+            setPos(checkbox, 260, 100);
+
+            Button submit = new Button("erstellen");
+            setPos(submit, 200, 180);
+
+            all.getChildren().addAll(title, roomName, checkbox, password, submit);
+
+            submit.setOnAction(actionEvent -> {
+
+                newStage.close();
+            });
+
+            Scene scene = new Scene(all, 500, 230);
+            newStage.setScene(scene);
+
+            newStage.show();
+        });
         MenuItem leaveRoom = new MenuItem("Raum verlassen");
         verwalten.getItems().addAll(joinRoom, createRoom, leaveRoom, exit);
 
