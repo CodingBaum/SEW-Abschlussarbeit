@@ -83,7 +83,7 @@ public class Client extends Application {
 
         mainStage.show();
 
-        MainPage.output(response);
+        MainPage.output(response, this);
 
         return true;
     }

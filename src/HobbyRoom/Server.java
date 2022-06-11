@@ -47,7 +47,7 @@ public class Server {
     }
 
     public static void broadCast(ClientHandler sender, String msg) {
-        List<ClientHandler> ja = sender == null ? clients : clients.stream().filter(x -> !x.equals(sender)).toList();
+        List<ClientHandler> ja = sender == null ? clients : clients.stream().filter(x -> !x.equals(sender) && x.currentRoomName == null).toList();
 
         if (sender != null) {
             stats.put(sender, stats.getOrDefault(sender, 0)+1);
@@ -89,7 +89,7 @@ public class Server {
             return false;
         } else {
             client.write("[SYSTEM] Willkommen " + name + "!\n");
-            broadCast(null, "sysmsg:" + name + " hat den Raum betreten.\n");
+            broadCast(null, "sysmsg:" + name + " hat den Server betreten.\n");
             clients.add(client);
             stats.put(client, 0);
             return true;

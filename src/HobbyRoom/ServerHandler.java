@@ -60,7 +60,7 @@ public class ServerHandler extends Thread {
             }
 
             if (input.startsWith("msg:") || input.startsWith("sysmsg:")) {
-                MainPage.output(input);
+                MainPage.output(input, user);
             }
         }
     }

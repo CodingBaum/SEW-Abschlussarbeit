@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
@@ -12,7 +13,7 @@ public class ClientHandler extends Thread {
     public Socket client;
     private BufferedReader br;
     private BufferedWriter wr;
-    private String currentRoomName;
+    public String currentRoomName;
 
     public ClientHandler(Socket client) {
         this.client = client;
@@ -212,8 +213,13 @@ public class ClientHandler extends Thread {
                     String msg = pattern.matcher(input).replaceFirst(x -> x.group(2));
                     Server.sendMessage(this, target, msg);
                 } else {
-                    Server.broadCast(this, input);
-                    System.out.println("DAS WIRD BROADCASTET: " + input);
+                    if (currentRoomName != null) {
+                        System.out.println("AN " + currentRoomName + ": " + input);
+                        Server.roomList.stream().filter(x -> x.getName().equals(currentRoomName)).findFirst().ifPresent(room -> room.getUsers().forEach(x -> x.write(input + "\n")));
+                    } else {
+                        Server.broadCast(this, input);
+                        System.out.println("DAS WIRD BROADCASTET: " + input);
+                    }
                 }
             }
 

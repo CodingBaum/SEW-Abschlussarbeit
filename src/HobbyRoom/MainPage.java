@@ -55,6 +55,8 @@ public class MainPage {
         send.setOnAction(actionEvent -> {
             String in = input.getText();
 
+            if (in.equals("")) return;
+
             if (in.startsWith("/")) {
                 in = in.substring(1);
 
@@ -71,11 +73,15 @@ public class MainPage {
                 if (Client.commands.containsKey(command)) {
                     Client.commands.get(command).apply(args);
                 } else {
-                    output("[ERROR] Dieser Befehl existiert nicht!");
+                    output("[ERROR] Dieser Befehl existiert nicht!", user);
                 }
             } else {
                 user.writeToServer("msg:"+user.getName()+":"+input.getText());
-                output("[PUBLIC] DU: " + input.getText());
+                if (user.currentRoomName != null) {
+                    output("[PRIVATE] DU: " + input.getText(), user);
+                } else {
+                    output("[PUBLIC] DU: " + input.getText(), user);
+                }
             }
 
             input.setText("");
@@ -128,7 +134,7 @@ public class MainPage {
 
         MenuBar menuBar = new MenuBar();
         Menu verwalten = new Menu("Verwalten");
-        Menu info = new Menu("Info");
+        Menu info = new Menu("Tools");
         menuBar.getMenus().addAll(verwalten, info);
 
         MenuItem exit = new MenuItem("Server verlassen");
@@ -297,7 +303,12 @@ public class MainPage {
             newStage.show();
         });
 
-        info.getItems().addAll(listUsers);
+        MenuItem privateMessage = new MenuItem("Direktnachricht");
+        privateMessage.setOnAction(event -> {
+
+        });
+
+        info.getItems().addAll(listUsers, privateMessage);
 
         BorderPane borderPane = new BorderPane();
         borderPane.setTop(menuBar);
@@ -310,10 +321,14 @@ public class MainPage {
 
 
 
-    public static void output(String s) {
+    public static void output(String s, Client client) {
         if (output == null) return;
         if (s.startsWith("msg:")) {
-            output.appendText("[PUBLIC] " + s.split(":")[1] + ": " + s.split(":")[2] + "\n");
+            if (client.currentRoomName != null) {
+                output.appendText("[PRIVATE] " + s.split(":")[1] + ": " + s.split(":")[2] + "\n");
+            } else {
+                output.appendText("[PUBLIC] " + s.split(":")[1] + ": " + s.split(":")[2] + "\n");
+            }
         } else if (s.startsWith("sysmsg:")) {
             output.appendText("[SYSTEM] " + s.split(":")[1] + "\n");
         } else {
