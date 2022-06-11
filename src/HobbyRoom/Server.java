@@ -15,6 +15,8 @@ public class Server {
 
     public static Map<List<ClientHandler>, Integer[][]> tictactoeGames = new HashMap<>();
 
+    public static List<Room> roomList = new ArrayList<>();
+
     public static void main(String[] args) {
         try (ServerSocket server = new ServerSocket(42069))
         {

@@ -21,6 +21,7 @@ public class Client extends Application {
     private String name;
     private ServerHandler serverHandler;
     private Stage mainStage;
+    public String currentRoomName = null;
 
     public static Map<String, UnaryOperator<Object[]>> commands = new HashMap<>();
 

@@ -19,9 +19,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.awt.*;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
 import java.util.Arrays;
 
 import static HobbyRoom.Client.setPos;
@@ -138,6 +135,49 @@ public class MainPage {
         exit.setOnAction(event -> Client.commands.get("quit").apply(null));
 
         MenuItem joinRoom = new MenuItem("Raum beitreten");
+        joinRoom.setOnAction(event -> {
+            Stage newStage = new Stage();
+
+            newStage.setResizable(false);
+            newStage.setTitle("Hobby Room");
+            AnchorPane all = new AnchorPane();
+
+            Label title = new Label("");
+            setPos(title, 150, 20);
+
+            TextField roomName = new TextField();
+            setPos(roomName, 90, 60);
+            roomName.setPromptText("Raumname");
+
+            TextField password = new TextField();
+            setPos(password, 292, 60);
+            password.setPromptText("Passwort");
+
+            Button submit = new Button("beitreten");
+            setPos(submit, 210, 140);
+
+            all.getChildren().addAll(title, roomName, password, submit);
+
+            submit.setOnAction(actionEvent -> {
+                String response = user.getFromServer("room", "room:CONNECT:"+roomName.getText()+":"+password.getText());
+
+                if (response.split(":")[1].equals("ERROR")) {
+                    Login.errorMessage(response.split(":")[2]).show();
+                } else {
+                    output.appendText("[SYSTEM] Verbunden mit " + roomName.getText()+"\n");
+
+                    user.currentRoomName = roomName.getText();
+
+                    newStage.close();
+                }
+            });
+
+            Scene scene = new Scene(all, 500, 190);
+            newStage.setScene(scene);
+
+            newStage.show();
+        });
+
         MenuItem createRoom = new MenuItem("Raum erstellen");
         createRoom.setOnAction(event -> {
             Stage newStage = new Stage();
@@ -150,12 +190,13 @@ public class MainPage {
             setPos(title, 150, 20);
 
             TextField roomName = new TextField();
-            setPos(roomName, 90, 100);
+            setPos(roomName, 90, 60);
             roomName.setPromptText("Raumname");
 
             TextField password = new TextField();
-            setPos(password, 292, 100);
+            setPos(password, 292, 60);
             password.setPromptText("Passwort");
+            password.setDisable(true);
 
             Button checkbox = new Button("   ");
             checkbox.setPrefWidth(28);
@@ -167,26 +208,64 @@ public class MainPage {
                     checkbox.setText("✓");
                     password.setDisable(false);
                 }
-
             });
-            setPos(checkbox, 260, 100);
+            setPos(checkbox, 260, 60);
 
             Button submit = new Button("erstellen");
-            setPos(submit, 200, 180);
+            setPos(submit, 210, 140);
 
             all.getChildren().addAll(title, roomName, checkbox, password, submit);
 
             submit.setOnAction(actionEvent -> {
+                if (!password.isDisabled() && password.getText().length() < 5) {
+                    Login.errorMessage("Das Passwort ist zu kurz").show();
+                    return;
+                }
 
-                newStage.close();
+                if (!password.isDisabled() && password.getText().length() > 30) {
+                    Login.errorMessage("Das Passwort ist zu lang").show();
+                    return;
+                }
+
+                if (roomName.getText().length() < 4) {
+                    Login.errorMessage("Der Name ist zu kurz").show();
+                    return;
+                }
+
+                if (roomName.getText().length() > 30) {
+                    Login.errorMessage("Der Name ist zu lang").show();
+                    return;
+                }
+
+                String passwort = password.isDisabled() ? null : password.getText();
+
+                String response = user.getFromServer("room", "room:CREATE:"+roomName.getText()+":"+passwort);
+
+                if (response.split(":")[1].equals("ERROR")) {
+                    Login.errorMessage(response.split(":")[2]).show();
+                } else {
+                    output.appendText("[SYSTEM] Raum " + roomName.getText() + " wurde erstellt\n");
+                    output.appendText("[SYSTEM] Verbunden mit " + roomName.getText()+"\n");
+
+                    user.currentRoomName = roomName.getText();
+
+                    newStage.close();
+                }
             });
 
-            Scene scene = new Scene(all, 500, 230);
+            Scene scene = new Scene(all, 500, 190);
             newStage.setScene(scene);
 
             newStage.show();
         });
         MenuItem leaveRoom = new MenuItem("Raum verlassen");
+        leaveRoom.setOnAction(event -> {
+            if (user.currentRoomName == null) return;
+            user.writeToServer("ttt:DISCONNECT:");
+            output.appendText("[SYSTEM] Verbindung mit " + user.currentRoomName + " wurde getrennt\n");
+            user.currentRoomName = null;
+        });
+
         verwalten.getItems().addAll(joinRoom, createRoom, leaveRoom, exit);
 
         MenuItem listUsers = new MenuItem("Benutzer anzeigen");

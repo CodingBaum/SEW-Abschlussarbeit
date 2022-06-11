@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
 public class ClientHandler extends Thread {
@@ -11,10 +12,46 @@ public class ClientHandler extends Thread {
     public Socket client;
     private BufferedReader br;
     private BufferedWriter wr;
+    private String currentRoomName;
 
     public ClientHandler(Socket client) {
         this.client = client;
     }
+
+    /*
+        Protokoll optionen
+
+
+        tictactoe handling
+
+        ttt:
+
+        CLNINI  initiate
+        CLNACC  accept
+        CLNREJ  reject
+        CLNREQ  request
+        SET     set value to field
+        WIN     tell the winner of the game
+
+
+        CMD     user befehlen wie z.b. list
+
+
+
+        msg:    norale User Nachrichten
+
+        sysmsg: nachrichten vom Server an die clients
+
+
+
+        room:       fuer private chatrooms
+
+        CREATE      erstellen eines raums
+        CONNECT     verbinden eines users auf einen server
+        DISCONENCT  verbindung von einem user aufheben
+        ERROR       falls etwas nicht moeglich ist um eine fehlermeldung an den client zu liefern
+        CONFIRM     Bestaetigt dass die Aktion durchgefuehrt wurde
+     */
 
     @Override
     public void run() {
@@ -43,15 +80,6 @@ public class ClientHandler extends Thread {
                 }
 
                 if (input.startsWith("ttt:")) {
-                    // tictactoe handling
-
-                    // CLNINI  initiate
-                    // CLNACC  accept
-                    // CLNREJ  reject
-                    // CLNREQ  request
-                    // SET     set value to field
-                    // WIN     tell the winner of the game
-
                     String[] args = input.split(":");
 
                     switch (args[1]) {
@@ -103,7 +131,70 @@ public class ClientHandler extends Thread {
                     continue;
                 }
 
-                if (input.startsWith("CMD")) {
+                if (input.startsWith("room:")) {
+                    switch (input.split(":")[1]) {
+                        case "CREATE" -> {
+                            if (Server.roomList.stream().filter(x -> x.getName().equals(input.split(":")[2])).toList().size() != 0) {
+                                write("room:ERROR:Dieser Name ist bereits vergeben\n");
+                            } else {
+                                System.out.println("ok");
+                                String password = input.split(":")[3].equals("null") ? null : input.split(":")[3];
+                                Room room = new Room(input.split(":")[2], password);
+                                Server.roomList.add(room);
+                                currentRoomName = room.getName();
+                                write("room:CONFIRM:\n");
+                            }
+                        }
+                        case "CONNECT" -> {
+                            if (currentRoomName != null) {
+                                Server.roomList.forEach(x -> {
+                                    if (x.getName().equals(currentRoomName)) {
+                                        x.removeUser(this);
+                                    }
+                                });
+                            }
+                            Server.roomList.forEach(x -> {
+                                if (x.getName().equals(input.split(":")[2])) {
+                                    boolean temp;
+                                    if (input.split(":").length != 4) {
+                                        temp = false;
+                                    } else {
+                                        temp = x.getPassword().equals(input.split(":")[3]);
+                                    }
+                                    if (x.getPassword() == null || temp) {
+                                        x.addUser(this);
+                                        write("room:CONFIRM:\n");
+                                    } else {
+                                        write("room:ERROR:Falsches Passwort\n");
+                                    }
+                                } else {
+                                    write("room:ERROR:Es existiert kein Raum mit diesem Namen\n");
+                                }
+                            });
+                            currentRoomName = input.split(":")[2];
+                        }
+                        case "DISCONNECT" -> {
+                            AtomicReference<Room> temp = null;
+                            Server.roomList.forEach(x -> {
+                                if (x.getName().equals(currentRoomName)) {
+                                    x.removeUser(this);
+                                    if (x.getUsers().size() == 0) {
+                                        temp.set(x);
+                                    }
+                                }
+                            });
+
+                            if (temp.get() == null) {
+                                Server.roomList.remove(temp.get());
+                            }
+
+                            currentRoomName = null;
+                        }
+                    }
+                    continue;
+                }
+
+                if (input.startsWith("CMD:")) {
                     if (input.split(":")[1].startsWith("list")) {
                         wr.write("LIST:"+Server.getAllUsers() + "\n");
                         wr.flush();
