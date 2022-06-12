@@ -19,6 +19,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 import static HobbyRoom.Client.setPos;
@@ -114,7 +115,13 @@ public class MainPage {
         Button bosna = new Button();
         setPos(bosna, 615, 10);
         bosna.setGraphic(new ImageView(new Image("res/minesweeper.png", 50, 50, true, true)));
-        bosna.setOnAction(actionEvent -> System.out.println("Launche Minesweeper"));
+        bosna.setOnAction(actionEvent -> {
+            try {
+                HobbyRoom.Games.Minesweeper.Minesweeperrrr.start().show();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
 
         //Button für Tic Tac Toe
         Button ttt = new Button();
