@@ -272,7 +272,7 @@ public class MainPage {
         MenuItem leaveRoom = new MenuItem("Raum verlassen");
         leaveRoom.setOnAction(event -> {
             if (user.currentRoomName == null) return;
-            user.writeToServer("ttt:DISCONNECT:");
+            user.writeToServer("room:DISCONNECT:");
             output.appendText("[SYSTEM] Verbindung mit " + user.currentRoomName + " wurde getrennt\n");
             user.currentRoomName = null;
         });

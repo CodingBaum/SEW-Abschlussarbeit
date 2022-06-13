@@ -141,6 +141,7 @@ public class ClientHandler extends Thread {
                                 System.out.println("ok");
                                 String password = input.split(":")[3].equals("null") ? null : input.split(":")[3];
                                 Room room = new Room(input.split(":")[2], password);
+                                room.addUser(this);
                                 Server.roomList.add(room);
                                 currentRoomName = room.getName();
                                 write("room:CONFIRM:\n");
@@ -154,39 +155,35 @@ public class ClientHandler extends Thread {
                                     }
                                 });
                             }
-                            Server.roomList.forEach(x -> {
-                                if (x.getName().equals(input.split(":")[2])) {
-                                    boolean temp;
-                                    if (input.split(":").length != 4) {
-                                        temp = false;
-                                    } else {
-                                        temp = x.getPassword().equals(input.split(":")[3]);
-                                    }
-                                    if (x.getPassword() == null || temp) {
-                                        x.addUser(this);
-                                        write("room:CONFIRM:\n");
-                                    } else {
-                                        write("room:ERROR:Falsches Passwort\n");
-                                    }
+                            Server.roomList.stream().filter(x -> x.getName().equals(input.split(":")[2])).findFirst().ifPresentOrElse(x -> {
+                                boolean temp;
+                                if (input.split(":").length != 4) {
+                                    temp = false;
                                 } else {
-                                    write("room:ERROR:Es existiert kein Raum mit diesem Namen\n");
+                                    temp = x.getPassword().equals(input.split(":")[3]);
                                 }
-                            });
+                                if (x.getPassword() == null || temp) {
+                                    x.addUser(this);
+                                    write("room:CONFIRM:\n");
+                                } else {
+                                    write("room:ERROR:Falsches Passwort\n");
+                                }
+                            }, () -> write("room:ERROR:Es existiert kein Raum mit diesem Namen\n"));
                             currentRoomName = input.split(":")[2];
                         }
                         case "DISCONNECT" -> {
-                            AtomicReference<Room> temp = null;
+                            final Room[] temp = {null};
                             Server.roomList.forEach(x -> {
                                 if (x.getName().equals(currentRoomName)) {
                                     x.removeUser(this);
                                     if (x.getUsers().size() == 0) {
-                                        temp.set(x);
+                                        temp[0] = x;
                                     }
                                 }
                             });
 
-                            if (temp.get() == null) {
-                                Server.roomList.remove(temp.get());
+                            if (temp[0] != null) {
+                                Server.roomList.remove(temp[0]);
                             }
 
                             currentRoomName = null;
@@ -208,7 +205,7 @@ public class ClientHandler extends Thread {
                     if (currentRoomName != null) {
                         System.out.println("AN " + currentRoomName + ": " + input);
                         Optional<Room> temp = Server.roomList.stream().filter(x -> x.getName().equals(currentRoomName)).findFirst();
-                        System.out.println(temp.get().getUsers());
+                        System.out.println(temp.get().getUsers().stream().map(x -> x.USERNAME).toList());
                         temp.ifPresent(room -> room.getUsers().stream().filter(x -> !x.equals(this)).forEach(x -> {
                             x.write(input + "\n");
                         }));
