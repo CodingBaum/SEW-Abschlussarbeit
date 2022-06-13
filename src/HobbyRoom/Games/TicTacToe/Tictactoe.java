@@ -24,6 +24,8 @@ public class Tictactoe {
     public static void setField(String input){
         Button current = obama[Integer.parseInt(input.charAt(0)+"")][Integer.parseInt(input.charAt(1)+"")];
 
+        output.setText("Du bist am Zug");
+
         current.setDisable(true);
         current.setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt2.png", 80, 80, true, true)));
 
@@ -41,6 +43,8 @@ public class Tictactoe {
         stage.setResizable(false);
         stage.setTitle("Tictactoe");
 
+        output.setEditable(false);
+
 
         AnchorPane grid = new AnchorPane();
         double height = 350;
@@ -54,7 +58,7 @@ public class Tictactoe {
                 int finalI = i;
                 int finalJ = j;
                 obama[i][j].setOnAction(actionEvent -> {
-                    output.setText("Gegner am Zug");
+                    output.setText("Warten auf Gegner");
                     for (Button[] buttons : obama) {
                         for (Button button : buttons) {
                             if (button.getGraphic() == null) {
@@ -64,7 +68,6 @@ public class Tictactoe {
                     }
                     obama[finalI][finalJ].setGraphic(new ImageView(new Image("HobbyRoom/Games/TicTacToe/pics/ttt1.png", buttonwidth*0.8, buttonheight*0.8, true, true)));
                     new TictactoeServerInputHandler("ttt:SET:"+ finalI + finalJ, client).start();
-                    output.setText("Du bist am Zug");
                 });
             }
         }
@@ -83,7 +86,6 @@ public class Tictactoe {
         output.setWrapText(true);
         output.setPrefHeight(1);
         output.setPrefWidth(width-10);
-        output.setText("Spieler 1 am Zug");
         setPos(output, 10, height-30);
 
         grid.getChildren().addAll(obama[0][0], obama[0][1], obama[0][2], obama[1][0], obama[1][1], obama[1][2], obama[2][0], obama[2][1], obama[2][2], output);
@@ -95,6 +97,9 @@ public class Tictactoe {
         if (!first) {
             enable(true, obama[0][0], obama[0][1], obama[0][2], obama[1][0], obama[1][1], obama[1][2], obama[2][0], obama[2][1], obama[2][2]);
             new TictactoeServerInputHandler("", client).start();
+            output.setText("Warten auf Gegner");
+        } else {
+            output.setText("Du bist am Zug");
         }
     }
 

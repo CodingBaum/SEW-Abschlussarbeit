@@ -3,7 +3,6 @@ package HobbyRoom;
 import HobbyRoom.Games.TicTacToe.Tictactoe;
 import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -93,6 +92,7 @@ public class MainPage {
 
         //Chatlog oben
         output = new TextArea();
+        output.setEditable(false);
         output.setWrapText(true);
         output.setPrefHeight(height/1.5);
         setPos(output, 2, 2);
@@ -133,9 +133,7 @@ public class MainPage {
         Button bj = new Button();
         setPos(bj, 615, 150);
         bj.setGraphic(new ImageView(new Image("res/bj.png", 50, 50, true, true)));
-        bj.setOnAction(actionEvent -> Platform.runLater(() -> {
-            HobbyRoom.Games.Blackjack.Main.startGame();
-        }));
+        bj.setOnAction(actionEvent -> Platform.runLater(() -> HobbyRoom.Games.Blackjack.Main.startGame()));
 
         main.getChildren().addAll(input, output, send, v, bosna, ttt, bj);
 
@@ -299,6 +297,7 @@ public class MainPage {
             TextArea list = new TextArea(users);
             list.setPrefHeight(newStage.getHeight());
             list.setPrefWidth(newStage.getWidth());
+            list.setEditable(false);
 
             setPos(list, -2, -2);
 
