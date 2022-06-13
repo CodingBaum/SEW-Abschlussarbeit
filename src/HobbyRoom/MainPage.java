@@ -97,6 +97,11 @@ public class MainPage {
         output.setPrefHeight(height/1.5);
         setPos(output, 2, 2);
 
+        // zeigt den momentanen chatroom an
+        Label chatroom = new Label("Momentan in keinem Chatroom");
+        chatroom.setPrefWidth(200);
+        setPos(chatroom, 10, (height/8)*6.5-30);
+
         //erstellt eine VBox um den rand rechts zu erstellen
         VBox v = new VBox();
         v.setPrefHeight(height);
@@ -135,7 +140,7 @@ public class MainPage {
         bj.setGraphic(new ImageView(new Image("res/bj.png", 50, 50, true, true)));
         bj.setOnAction(actionEvent -> Platform.runLater(() -> HobbyRoom.Games.Blackjack.Main.startGame()));
 
-        main.getChildren().addAll(input, output, send, v, bosna, ttt, bj);
+        main.getChildren().addAll(input, output, send, chatroom, v, bosna, ttt, bj);
 
         MenuBar menuBar = new MenuBar();
         Menu verwalten = new Menu("Verwalten");
@@ -178,6 +183,8 @@ public class MainPage {
                     output.appendText("[SYSTEM] Verbunden mit " + roomName.getText()+"\n");
 
                     user.currentRoomName = roomName.getText();
+
+                    chatroom.setText("Chatroom: " + user.currentRoomName);
 
                     newStage.close();
                 }
@@ -260,6 +267,8 @@ public class MainPage {
 
                     user.currentRoomName = roomName.getText();
 
+                    chatroom.setText("Chatroom: " + user.currentRoomName);
+
                     newStage.close();
                 }
             });
@@ -275,6 +284,8 @@ public class MainPage {
             user.writeToServer("room:DISCONNECT:");
             output.appendText("[SYSTEM] Verbindung mit " + user.currentRoomName + " wurde getrennt\n");
             user.currentRoomName = null;
+
+            chatroom.setText("Momentan in keinem Chatroom");
         });
 
         verwalten.getItems().addAll(joinRoom, createRoom, leaveRoom, exit);
