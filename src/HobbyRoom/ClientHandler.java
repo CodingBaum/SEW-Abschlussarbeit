@@ -203,19 +203,15 @@ public class ClientHandler extends Thread {
                         wr.close();
                         br.close();
                         break;
-                    } else if (input.equals("stat")) {
-                        wr.write(Server.printStats() + "\n");
-                        wr.flush();
                     }
-                } else if (input.matches(Server.privateMsgSyntax)) {
-                    Pattern pattern = Pattern.compile(Server.privateMsgSyntax);
-                    String target = pattern.matcher(input).replaceFirst(x -> x.group(1));
-                    String msg = pattern.matcher(input).replaceFirst(x -> x.group(2));
-                    Server.sendMessage(this, target, msg);
                 } else {
                     if (currentRoomName != null) {
                         System.out.println("AN " + currentRoomName + ": " + input);
-                        Server.roomList.stream().filter(x -> x.getName().equals(currentRoomName)).findFirst().ifPresent(room -> room.getUsers().forEach(x -> x.write(input + "\n")));
+                        Optional<Room> temp = Server.roomList.stream().filter(x -> x.getName().equals(currentRoomName)).findFirst();
+                        System.out.println(temp.get().getUsers());
+                        temp.ifPresent(room -> room.getUsers().stream().filter(x -> !x.equals(this)).forEach(x -> {
+                            x.write(input + "\n");
+                        }));
                     } else {
                         Server.broadCast(this, input);
                         System.out.println("DAS WIRD BROADCASTET: " + input);
